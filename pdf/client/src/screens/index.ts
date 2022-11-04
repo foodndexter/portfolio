@@ -1,0 +1,5 @@
+export { default as Home } from "./Home"
+export { default as Evas } from "./Evas"
+export { default as EvasChooseBook } from "./EvasChooseBook"
+export { default as Attendency } from "./Attendency"
+export { default as Blog } from "./Blog"

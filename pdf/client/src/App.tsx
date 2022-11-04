@@ -1,26 +1,22 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes, useNavigate } from "react-router-dom"
+import { Layout } from "./components"
+import { dexyMenus } from "./dexybase"
+import { useAppDispatch, useAppSelector } from "./redux/hooks"
+import { AppDispatch } from "./redux/store"
+import { Attendency, Blog, Evas, EvasChooseBook, Home } from "./screens"
 
-function App() {
+const App = () => {
+  const dexyRouters = [<Evas />, <Attendency />, <Blog />]
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Layout>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        {dexyMenus && dexyMenus.map((router, index) => <Route path={`/${router.path}`} key={index} element={dexyRouters[index]} />)}
+        <Route path="/evas/:sort" element={<EvasChooseBook />} />
+      </Routes>
+    </Layout>
+  )
 }
 
-export default App;
+export default App
