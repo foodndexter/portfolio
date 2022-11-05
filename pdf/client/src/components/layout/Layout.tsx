@@ -37,7 +37,8 @@ const Header = (props: Props & { color: string; dispatch: AppDispatch }) => {
   const { activeMenu, color, dispatch, onClick } = props
 
   const onLogo = () => {
-    onClick("/")
+    onClick("")
+    dispatch(menuHandler("off"))
   }
 
   const onMenu = () => dispatch(menuHandler("toggle"))
@@ -72,7 +73,7 @@ const Sidebar = (props: Props) => {
   return (
     <DexyView style={activeMenu ? { ...sidebar.container, opacity: 1, visibility: "visible" } : sidebar.container}>
       <div style={sidebar.wrap}>
-        <button style={sidebar.menuItem} onClick={() => onClick("/")}>
+        <button style={sidebar.menuItem} onClick={() => onClick("")}>
           홈
         </button>
         {dexyMenus && dexyMenus.map((menu, index) => <MenuItem menu={menu} key={index} onClick={onClick} index={index} />)}

@@ -60,6 +60,7 @@ export const sidebar: Record<"container" | "wrap" | "menuItem", CSS> = {
     transition: "all .2s ease-out",
     visibility: "hidden",
     opacity: 0,
+    zIndex: 999,
   },
   wrap: { display: "flex", flexDirection: "column", height: "100%" },
   menuItem: {
@@ -72,7 +73,7 @@ export const sidebar: Record<"container" | "wrap" | "menuItem", CSS> = {
   },
 }
 
-export const dexyStyle: Record<"appCenter" | "appButton" | "appIcon" | "bannerSample" | "appIconWrap" | "appIconName" | "btnWrap", CSS> = {
+export const dexyStyle: Record<"appCenter" | "appButton" | "appIcon" | "bannerSample" | "appIconWrap" | "appIconName" | "btnWrap" | "sampleImg", CSS> = {
   appCenter: {
     display: "flex",
     flexDirection: "column",
@@ -118,6 +119,10 @@ export const dexyStyle: Record<"appCenter" | "appButton" | "appIcon" | "bannerSa
   btnWrap: {
     display: "flex",
     justifyContent: "center",
+  },
+  sampleImg: {
+    width,
+    height: (width / 16) * 9,
   },
 }
 
