@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { DexyAppView, LectureBox, LectureItem } from "../components"
-import { engNeKim } from "../dexybase"
+import { engNeKim, lectureBoxBtns } from "../dexybase"
 
 const EvasShowLectures = () => {
   const { category } = useParams()
@@ -12,14 +12,11 @@ const EvasShowLectures = () => {
     }
   }, [category])
 
-  useEffect(() => {
-    console.log(lectures)
-  }, [lectures])
   return (
     <>
       {lectures.length > 0 ? (
         <div>
-          <LectureBox />
+          <LectureBox btns={lectureBoxBtns} src={107178137} />
           <div>{lectures && lectures.map((lecture, index) => <LectureItem item={lecture} key={index} type="icon" />)}</div>
         </div>
       ) : (

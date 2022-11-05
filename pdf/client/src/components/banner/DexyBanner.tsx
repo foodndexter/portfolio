@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react"
 import { FiChevronLeft, FiChevronRight, FiPause, FiPlay } from "react-icons/fi"
 import { dexyBanner } from "../../dexybase"
 import { banner, dexyStyle } from "../../styles"
+import { ResponsiveBox169 } from "../DexyReact"
 
 type HandleContents = (index: number) => void
 type Direction = "prev" | "next"
@@ -39,7 +40,7 @@ const DexyBanner = (props: { navi: any }) => {
   return (
     <div style={banner.container}>
       <CTRLS onClick={controller} isPlaying={isPlaying} playHandler={playHandler} />
-      <div style={{ ...dexyStyle.bannerSample, backgroundColor: dexyBanner[contents].img }}></div>
+      <ResponsiveBox169 style={{ backgroundColor: dexyBanner[contents].img }}></ResponsiveBox169>
       <Indicators contents={contents} contentsHandler={contentsHandler} />
     </div>
   )
