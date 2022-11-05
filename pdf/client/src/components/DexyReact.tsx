@@ -67,7 +67,17 @@ export const DexyAppView = (props: Props & { id?: string }) => {
 
   const { color, backgroundColor, fontSize, fontWeight, fontFamily } = useAppSelector((state) => state.sample)
 
-  const initialStyle: CSS = { color, backgroundColor, fontWeight, fontSize, fontFamily, ...dexyStyle.appCenter }
+  const [screen, setScreen] = useState<{ width: number; height: number }>({ width: window.innerWidth, height: window.innerHeight })
+
+  useEffect(() => {
+    const getScreen = () => setScreen({ width: window.innerWidth, height: window.innerHeight })
+
+    window.addEventListener("resize", getScreen)
+
+    return () => window.removeEventListener("resize", getScreen)
+  }, [screen.width])
+
+  const initialStyle: CSS = { color, backgroundColor, fontWeight, fontSize, fontFamily, width: screen.width, ...dexyStyle.appCenter }
 
   const [viewStyle, setViewStyle] = useState<CSS>(initialStyle)
 
@@ -101,4 +111,27 @@ export const DexyIcon = (props: { onClick: Function; style?: CSS; name: string; 
       <span style={dexyStyle.appIconName}>{name}</span>
     </button>
   )
+}
+
+export const ResponsiveBox169 = (props: { children?: Child; style?: CSS }) => {
+  const { children, style } = props
+  const [screen, setScreen] = useState<{ width: number; height: number }>({ width: window.innerWidth, height: window.innerHeight })
+
+  useEffect(() => {
+    const getScreen = () => setScreen({ width: window.innerWidth, height: window.innerHeight })
+
+    window.addEventListener("resize", getScreen)
+    return () => window.removeEventListener("resize", getScreen)
+  }, [screen.width])
+
+  const initialStyle: CSS = { width: screen.width, height: (screen.width / 16) * 9 }
+  const [boxStyle, setBoxStyle] = useState(initialStyle)
+  useEffect(() => {
+    const { width, height } = screen
+
+    if (style) {
+      setBoxStyle({ ...initialStyle, ...style })
+    } else setBoxStyle(initialStyle)
+  }, [style, screen])
+  return <div style={boxStyle}>{children}</div>
 }

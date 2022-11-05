@@ -3,14 +3,14 @@ import { dexyRGB } from "./dexybase"
 type CSS = React.CSSProperties
 const top = 60
 
-const width = window.innerWidth
+// const width = window.innerWidth
 const height = window.innerHeight - top * 2
-let device: Device = "tablet"
-if (width < 768) {
-  device = "mobile"
-} else if (width >= 1200) {
-  device = "pc"
-}
+// let device: Device = "tablet"
+// if (width < 768) {
+//   device = "mobile"
+// } else if (width >= 1200) {
+//   device = "pc"
+// }
 let fontSize: number = 20
 let fontWeight: number = 400
 let fontFamily: string = ""
@@ -73,13 +73,12 @@ export const sidebar: Record<"container" | "wrap" | "menuItem", CSS> = {
   },
 }
 
-export const dexyStyle: Record<"appCenter" | "appButton" | "appIcon" | "bannerSample" | "appIconWrap" | "appIconName" | "btnWrap" | "sampleImg", CSS> = {
+export const dexyStyle: Record<"appCenter" | "appButton" | "appIcon" | "appIconWrap" | "appIconName" | "btnWrap", CSS> = {
   appCenter: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-    width,
     height,
   },
   appButton: {
@@ -93,7 +92,7 @@ export const dexyStyle: Record<"appCenter" | "appButton" | "appIcon" | "bannerSa
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: width / 2,
+    width: "50%",
     maxWidth: 300,
     boxShadow: `0 3px 6px rgba(${dexyRGB}, 1)`,
   },
@@ -112,17 +111,9 @@ export const dexyStyle: Record<"appCenter" | "appButton" | "appIcon" | "bannerSa
     fontSize,
     marginTop: 10,
   },
-  bannerSample: {
-    width,
-    height: (width / 16) * 9,
-  },
   btnWrap: {
     display: "flex",
     justifyContent: "center",
-  },
-  sampleImg: {
-    width,
-    height: (width / 16) * 9,
   },
 }
 
@@ -130,6 +121,7 @@ export const banner: Record<"container" | "btns" | "prevBtn" | "nextBtn" | "ctrl
   container: {
     position: "relative",
     overflow: "hidden",
+    width: "100%",
   },
   ctrlWrap: {
     position: "absolute",
@@ -182,4 +174,21 @@ export const banner: Record<"container" | "btns" | "prevBtn" | "nextBtn" | "ctrl
     opacity: 0.5,
     transition: "all .2s ease-out",
   },
+}
+
+export const lectureBox: Record<"btnWrap" | "btns", CSS> = {
+  btnWrap: {
+    height: 50,
+  },
+  btns: {
+    width: "100%",
+    border: "1px solid",
+    fontSize: 16,
+  },
+}
+
+export const lectureItem: Record<"container" | "imgWrap" | "titleInImg", CSS> = {
+  container: {},
+  imgWrap: {},
+  titleInImg: {},
 }

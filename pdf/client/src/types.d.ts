@@ -115,3 +115,5 @@ type ForGetLectures =
   | "go2year21"
   | "go2year22"
   | Book
+
+type LectureBoxBtn = { name: string; short: string[]; path: string; img: string; full: string }

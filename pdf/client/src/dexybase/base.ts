@@ -206,3 +206,10 @@ export const engNeKim: NeKim[] = [
     src3: "123123123123123",
   },
 ]
+
+export const lectureBoxBtns: LectureBoxBtn[] = [
+  { name: "미리보기", path: "", short: ["간단한 요약을 적습니다."], full: "전문을 적습니다.", img: redIcon },
+  { name: "핵심공략", path: "", short: ["1. 이렇게 하면 됩니다.", "2. 저렇게 하면됩니다.", "3. 참 쉽죠?"], full: "", img: orangeIcon },
+  { name: "이용약관", path: "", short: ["1. 이용약관 요약본 1", "2. 이용약관 요약본 2", "3. 이용약관 요약본 3"], full: "", img: greenIcon },
+  { name: "환불규정", path: "", short: ["1. 환불규정 요약본 1", "2. 환불규정 요약본 2", "3. 환불규정 요약본 3"], full: "", img: blueIcon },
+]

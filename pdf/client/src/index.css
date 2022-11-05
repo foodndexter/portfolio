@@ -22,3 +22,7 @@ img {
   width: 100%;
   vertical-align: top;
 }
+
+*::-webkit-scrollbar {
+  width: 0;
+}

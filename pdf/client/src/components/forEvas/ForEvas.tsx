@@ -19,7 +19,7 @@ export const LectureItem = (props: { item: Lecture; type: "img" | "icon" }) => {
 export const LectureBox = () => {
   return (
     <div>
-      <div style={{ ...dexyStyle.sampleImg, border: "2px solid" }}></div>
+      <div style={{ border: "2px solid" }}></div>
       <div style={{ border: "1px solid", ...dexyStyle.btnWrap }}></div>
     </div>
   )
