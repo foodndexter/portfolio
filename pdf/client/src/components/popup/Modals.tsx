@@ -17,7 +17,6 @@ export const LoginModal = (props: { dispatch: AppDispatch; closeFn: () => void }
   const [user, setUser] = useState<User>()
 
   const onSubmit = async () => {
-    console.log("submitting...")
     const user = await dexyDB.findById(input.id)
     if (user) {
       setUser(user)

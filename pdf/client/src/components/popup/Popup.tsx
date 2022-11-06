@@ -51,13 +51,10 @@ export const DexyConfirm = () => {
 
   const closeFn = () => {
     dispatch(confirmHandler("off"))
-    console.log("closing...")
   }
 
   const onOK = () => {
-    console.log(type)
     if (type === "login") {
-      console.log("login modal")
       dispatch(modalHandler("login"))
     }
     closeFn()

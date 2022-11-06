@@ -10,7 +10,6 @@ const userSlice = createSlice({
       if (action.payload === "off") {
         return { ...initialState }
       } else {
-        console.log("user logging in...")
         return { state: true, ...action.payload }
       }
     },
