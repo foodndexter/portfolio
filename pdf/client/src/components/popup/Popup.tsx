@@ -2,7 +2,7 @@ import React, { ReactNode, useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../redux/hooks"
 import { alertHandler, confirmHandler, modalHandler } from "../../redux/reducers/sampleSlice"
 import { AppDispatch } from "../../redux/store"
-import { popup } from "../../styles"
+import { alertStyle, popup } from "../../styles"
 import { LoginModal } from "./Modals"
 
 type CSS = React.CSSProperties
@@ -36,9 +36,11 @@ export const DexyAlert = () => {
   const closeFn = () => dispatch(alertHandler("off"))
   return (
     <Layout type="alert" dispatch={dispatch} closeFn={closeFn} switch={state}>
-      <div>
-        <span>{message}</span>
-        <button onClick={closeFn}>{okBtn}</button>
+      <div style={alertStyle.container}>
+        <span style={alertStyle.message}>{message}</span>
+        <button onClick={closeFn} style={alertStyle.button}>
+          {okBtn}
+        </button>
       </div>
     </Layout>
   )

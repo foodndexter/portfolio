@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import { DexyAppView, LectureBox, LectureItem } from "../components"
 import { engNeKim, lectureBoxBtns } from "../dexybase"
+import { lectureItem } from "../styles"
 
 const EvasShowLectures = () => {
   const { category } = useParams()
@@ -17,7 +18,7 @@ const EvasShowLectures = () => {
       {lectures.length > 0 ? (
         <div>
           <LectureBox btns={lectureBoxBtns} src={107178137} />
-          <div>{lectures && lectures.map((lecture, index) => <LectureItem item={lecture} key={index} type="icon" />)}</div>
+          <div style={lectureItem.show}>{lectures && lectures.map((lecture, index) => <LectureItem item={lecture} key={index} type="icon" />)}</div>
         </div>
       ) : (
         <DexyAppView>강의를 준비중입니다</DexyAppView>

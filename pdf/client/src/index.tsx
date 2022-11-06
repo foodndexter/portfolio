@@ -6,13 +6,16 @@ import App from "./App"
 import { store } from "./redux/store"
 import reportWebVitals from "./reportWebVitals"
 import "./index.css"
+import { StateProvider } from "./contextApi/StateProvider"
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
-        <App />
+        <StateProvider>
+          <App />
+        </StateProvider>
       </Provider>
     </BrowserRouter>
   </React.StrictMode>

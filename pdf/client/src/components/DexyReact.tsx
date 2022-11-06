@@ -47,8 +47,7 @@ export const DexyButton = (props: { onClick?: Function; title?: string; children
       onClick={(e) => {
         onClick && onClick(e)
       }}
-      style={type === "submit" ? submitStyle : btnStyle}
-    >
+      style={type === "submit" ? submitStyle : btnStyle}>
       {children ? children : title}
     </button>
   )
@@ -123,7 +122,7 @@ export const DexyIcon = (props: { onClick: Function; style?: CSS; name: string; 
   )
 }
 
-export const ResponsiveBox169 = (props: { children?: Child; style?: CSS }) => {
+export const ResponsiveBox169 = (props: { children?: Child; style?: CSS; width?: string | number }) => {
   const { children, style } = props
   const [screen, setScreen] = useState<{ width: number; height: number }>({ width: window.innerWidth, height: window.innerHeight })
 
@@ -137,10 +136,16 @@ export const ResponsiveBox169 = (props: { children?: Child; style?: CSS }) => {
   const initialStyle: CSS = { width: screen.width, height: (screen.width / 16) * 9, overflow: "hidden" }
   const [boxStyle, setBoxStyle] = useState(initialStyle)
   useEffect(() => {
+    const propsWidth = Number(String(props.width).split("%")[0])
+    const sample = { width: props.width }
     if (style) {
-      setBoxStyle({ ...initialStyle, ...style })
-    } else setBoxStyle(initialStyle)
-  }, [style, screen])
+      setBoxStyle(
+        propsWidth
+          ? { ...initialStyle, ...style, width: props.width, height: (((screen.width / 100) * propsWidth) / 16) * 9 }
+          : { ...initialStyle, ...style, width: props.width, height: (((screen.width / 100) * propsWidth) / 16) * 9 }
+      )
+    } else setBoxStyle(propsWidth ? { ...initialStyle } : initialStyle)
+  }, [style, screen, props.width])
   return <div style={boxStyle}>{children}</div>
 }
 

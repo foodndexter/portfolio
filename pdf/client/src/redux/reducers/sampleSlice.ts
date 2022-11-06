@@ -27,7 +27,6 @@ const sampleSlice = createSlice({
     },
     alertHandler: (state, action: { payload: "off" | Popup }) => {
       if (action.payload === "off") {
-        console.log("closing alert")
         return { ...state, alert: { state: false } }
       } else {
         const { cancelBtn, message, okBtn } = action.payload

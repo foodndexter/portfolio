@@ -6,6 +6,7 @@ import { ResponsiveBox169 } from "../DexyReact"
 import { BsCartPlus } from "react-icons/bs"
 import { useAppDispatch, useAppSelector } from "../../redux/hooks"
 import { alertHandler, confirmHandler } from "../../redux/reducers/sampleSlice"
+import { useStateContext } from "../../contextApi/StateProvider"
 
 type CSS = React.CSSProperties
 export const LectureItem = (props: { item: Lecture; type: "img" | "icon" }) => {
@@ -17,12 +18,12 @@ export const LectureItem = (props: { item: Lecture; type: "img" | "icon" }) => {
   const { user } = useAppSelector((state) => state)
   const [price, setPrice] = useState("")
   useEffect(() => {
-    chapter === "1과" && setPrice(getPrice(item.price))
+    setPrice(getPrice(item.price))
   }, [item.price])
 
   const onCartIcon = () => {
     if (user.state) {
-      dispatch(alertHandler({ state: true, message: "장바구니에 담았습니다." }))
+      dispatch(alertHandler({ state: true, message: "장바구니에 담았습니다.", okBtn: "확인" }))
     } else {
       dispatch(confirmHandler({ state: true, cancelBtn: "취소", message: "회원에게만 제공된 기능입니다. 로그인하시겠습니까?", okBtn: "로그인", type: "login" }))
     }
@@ -42,17 +43,31 @@ export const LectureItem = (props: { item: Lecture; type: "img" | "icon" }) => {
       setStyle({ screen: { ...style.screen, backgroundColor: "rgba(0,0,0,.05)" }, imgTitle: { ...style.imgTitle } })
     } else setStyle(initialStyle)
   }, [isHovering])
+
+  const { screen } = useStateContext()
+
+  const initialContainer: CSS = lectureItem.container
+  const [containerStyle, setContainerStyle] = useState<CSS>(initialContainer)
+  const [width, setWidth] = useState("100%")
+  useEffect(() => {
+    if (screen.width < 400) setWidth("100%")
+    if (screen.width >= 400) setWidth("50%")
+    if (screen.width >= 768) setWidth("33.3333333%")
+    if (screen.width >= 1200) setWidth("25%")
+  }, [screen])
+
+  useEffect(() => {
+    setContainerStyle({ ...initialContainer, width })
+  }, [width])
   return (
-    <div style={lectureItem.container} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
+    <div style={containerStyle} onMouseEnter={() => setIsHovering(true)} onMouseLeave={() => setIsHovering(false)}>
       <div style={lectureItem.imgWrap}>
         <div style={lectureItem.titleInImg}>
           <span style={style.imgTitle}>{name}</span>
-          <span>{title}</span>
+          <span style={{ ...dexyStyle.oneLine, textAlign: "center" }}>{title}</span>
         </div>
         <div style={style.screen}></div>
-        <ResponsiveBox169>
-          <img src={type === "img" ? img : icon} alt={name} style={isHovering ? { transform: "scale(1.03)" } : undefined} />
-        </ResponsiveBox169>
+        <img src={type === "img" ? img : icon} alt={name} style={isHovering ? { transform: "scale(1.03)" } : undefined} />
       </div>
       <div style={lectureItem.info}>
         <p>{fullName}</p>

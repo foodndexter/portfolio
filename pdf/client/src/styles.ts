@@ -227,7 +227,8 @@ export const lectureBox: Record<"btnWrap" | "btns", CSS> = {
   },
 }
 
-export const lectureItem: Record<"container" | "imgWrap" | "titleInImg" | "info" | "screen" | "icon", CSS> = {
+export const lectureItem: Record<"container" | "imgWrap" | "titleInImg" | "info" | "screen" | "icon" | "show", CSS> = {
+  show: { display: "flex", flexFlow: "row wrap" },
   container: {
     cursor: "pointer",
     position: "relative",
@@ -269,7 +270,7 @@ export const lectureItem: Record<"container" | "imgWrap" | "titleInImg" | "info"
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
-    bottom: 0,
+    bottom: 20,
     right: 10,
   },
 }
@@ -285,7 +286,6 @@ export const popup: Record<"container" | "body" | "bg", CSS> = {
     zIndex: 3,
     visibility: "hidden",
     opacity: 0,
-    transition: "all .2s ease-out",
     overflow: "hidden",
     display: "flex",
     flexDirection: "column",
@@ -298,7 +298,7 @@ export const popup: Record<"container" | "body" | "bg", CSS> = {
     backgroundColor: "white",
     zIndex: 1,
     top: -60,
-    width: 280,
+    width: 260,
     borderRadius: 10,
     border: "1px solid",
   },
@@ -309,5 +309,22 @@ export const popup: Record<"container" | "body" | "bg", CSS> = {
     backdropFilter: "blur(2px)",
     width: "100%",
     height: "100%",
+  },
+}
+
+export const alertStyle: Record<"container" | "message" | "button", CSS> = {
+  container: {
+    display: "flex",
+    // flexDirection: "column",
+  },
+  message: {},
+  button: {
+    color: backgroundColor,
+    backgroundColor: color,
+    height: 50,
+    border: `1pxs solid ${color}`,
+    width: 100,
+    borderRadius: 3,
+    fontSize,
   },
 }
