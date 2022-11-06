@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit"
-import { sampleSlicer } from "./reducers"
+import { sampleSlicer, userSlicer } from "./reducers"
 
 export const store = configureStore({
   reducer: {
     sample: sampleSlicer,
+    user: userSlicer,
   },
 })
 

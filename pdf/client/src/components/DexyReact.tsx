@@ -1,5 +1,6 @@
 import React, { ReactNode, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import { isIfStatement } from "typescript"
 import { serialize } from "v8"
 import { useAppSelector } from "../redux/hooks"
 import { dexyStyle } from "../styles"
@@ -27,19 +28,28 @@ export const DexyView = (props: Props & { id?: string }) => {
   )
 }
 
-export const DexyButton = (props: Props & { onClick: Function }) => {
-  const { children, onClick, style } = props
+export const DexyButton = (props: { onClick?: Function; title?: string; children?: Child; style?: CSS; type?: "submit" }) => {
+  const { children, onClick, style, title, type } = props
   const { color, backgroundColor, fontSize, fontWeight, fontFamily } = useAppSelector((state) => state.sample)
 
   const initialStyle: CSS = { color, backgroundColor, fontWeight, fontSize, fontFamily }
   const [btnStyle, setBtnStyle] = useState<CSS>(initialStyle)
 
+  const initialSubmitStyle: CSS = { ...initialStyle, color: backgroundColor, backgroundColor: color, ...dexyStyle.submitBtn, borderColor: backgroundColor }
+  const [submitStyle, setSubmitStyle] = useState<CSS>(initialSubmitStyle)
+
   useEffect(() => {
     style ? setBtnStyle({ ...initialStyle, ...style }) : setBtnStyle(initialStyle)
   }, [style])
+
   return (
-    <button onClick={(e) => onClick(e)} style={btnStyle}>
-      {children}
+    <button
+      onClick={(e) => {
+        onClick && onClick(e)
+      }}
+      style={type === "submit" ? submitStyle : btnStyle}
+    >
+      {children ? children : title}
     </button>
   )
 }
@@ -124,14 +134,90 @@ export const ResponsiveBox169 = (props: { children?: Child; style?: CSS }) => {
     return () => window.removeEventListener("resize", getScreen)
   }, [screen.width])
 
-  const initialStyle: CSS = { width: screen.width, height: (screen.width / 16) * 9 }
+  const initialStyle: CSS = { width: screen.width, height: (screen.width / 16) * 9, overflow: "hidden" }
   const [boxStyle, setBoxStyle] = useState(initialStyle)
   useEffect(() => {
-    const { width, height } = screen
-
     if (style) {
       setBoxStyle({ ...initialStyle, ...style })
     } else setBoxStyle(initialStyle)
   }, [style, screen])
   return <div style={boxStyle}>{children}</div>
+}
+
+type Styling = { inputWrap: CSS; label: CSS; input: CSS }
+
+export const DexyInput = (props: {
+  id?: any
+  placeHolder?: string
+  value: any
+  onChange: (e: any) => void
+  name?: any
+  type?: "password"
+  style?: Styling
+}) => {
+  const { id, placeHolder, value, onChange, name, type, style } = props
+
+  const initialStyle: Styling = { inputWrap: dexyStyle.inputWrap, label: dexyStyle.label, input: dexyStyle.input }
+
+  const [isFocused, setIsFocused] = useState(false)
+
+  const onBlur = () => {
+    if (value.length === 0) {
+      setIsFocused(false)
+    } else setIsFocused(true)
+  }
+
+  const [styling, setStyling] = useState<Styling>(initialStyle)
+
+  useEffect(() => {
+    onBlur()
+    if (style) {
+      if (isFocused) {
+        setStyling({
+          inputWrap: { ...initialStyle.inputWrap, ...style.inputWrap },
+          label: { ...initialStyle.label, ...style.label, fontSize: 10, top: 10, transform: "none" },
+          input: { ...initialStyle.input, ...style.input },
+        })
+      } else
+        setStyling({
+          inputWrap: { ...initialStyle.inputWrap, ...style.inputWrap },
+          label: { ...initialStyle.label, ...style.label },
+          input: { ...initialStyle.input, ...style.input },
+        })
+    } else {
+      if (isFocused) {
+        setStyling({ ...styling, label: { ...initialStyle.label, fontSize: 10, top: 10, transform: "none" } })
+      } else setStyling(initialStyle)
+    }
+  }, [style, value, isFocused])
+
+  return (
+    <div style={styling.inputWrap}>
+      {placeHolder && (
+        <label htmlFor={id} style={styling.label}>
+          {placeHolder}
+        </label>
+      )}
+      <input
+        type={type ? type : "text"}
+        value={value}
+        onChange={onChange}
+        id={id}
+        name={name}
+        style={styling.input}
+        onFocus={() => {
+          if (value.length > 0) setIsFocused(true)
+        }}
+        onBlur={onBlur}
+      />
+    </div>
+  )
+}
+
+export const DexyForm = (props: { style?: CSS; onSubmit?: () => void; children: Child }) => {
+  const onSubmit = (e: any) => {
+    e.preventDefault()
+    props.onSubmit && props.onSubmit()
+  }
+  return <form onSubmit={onSubmit}>{props.children}</form>
 }

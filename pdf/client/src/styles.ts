@@ -73,7 +73,10 @@ export const sidebar: Record<"container" | "wrap" | "menuItem", CSS> = {
   },
 }
 
-export const dexyStyle: Record<"appCenter" | "appButton" | "appIcon" | "appIconWrap" | "appIconName" | "btnWrap", CSS> = {
+export const dexyStyle: Record<
+  "appCenter" | "appButton" | "appIcon" | "appIconWrap" | "appIconName" | "btnWrap" | "bold" | "oneLine" | "inputWrap" | "label" | "input" | "submitBtn",
+  CSS
+> = {
   appCenter: {
     display: "flex",
     flexDirection: "column",
@@ -114,6 +117,43 @@ export const dexyStyle: Record<"appCenter" | "appButton" | "appIcon" | "appIconW
   btnWrap: {
     display: "flex",
     justifyContent: "center",
+  },
+  bold: {
+    fontWeight: 900,
+  },
+  oneLine: {
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    width: "100%",
+  },
+  inputWrap: {
+    position: "relative",
+    display: "flex",
+    width: "100%",
+    marginBottom: 10,
+    flexDirection: "column",
+    height: 50,
+  },
+  label: {
+    position: "absolute",
+    top: "50%",
+    transform: "translateY(-50%)",
+    left: 10,
+  },
+  input: {
+    border: "1px solid",
+    height: "100%",
+    borderRadius: 3,
+    padding: "10px 10px 0",
+    fontSize: 20,
+  },
+  submitBtn: {
+    width: "100%",
+    height: 50,
+    fontSize: 20,
+    border: "1px solid",
+    borderRadius: 3,
   },
 }
 
@@ -187,8 +227,87 @@ export const lectureBox: Record<"btnWrap" | "btns", CSS> = {
   },
 }
 
-export const lectureItem: Record<"container" | "imgWrap" | "titleInImg", CSS> = {
-  container: {},
-  imgWrap: {},
-  titleInImg: {},
+export const lectureItem: Record<"container" | "imgWrap" | "titleInImg" | "info" | "screen" | "icon", CSS> = {
+  container: {
+    cursor: "pointer",
+    position: "relative",
+  },
+  imgWrap: {
+    position: "relative",
+    overflow: "hidden",
+  },
+  titleInImg: {
+    width: "calc(100% - 40px)",
+    position: "absolute",
+    color: "white",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    zIndex: 2,
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+  },
+  screen: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0,0,0,.2)",
+  },
+  info: {
+    margin: "10px 0 20px",
+    paddingLeft: 10,
+  },
+  icon: {
+    border: "1px solid",
+    borderRadius: 100,
+    width: 40,
+    height: 40,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    bottom: 0,
+    right: 10,
+  },
+}
+
+export const popup: Record<"container" | "body" | "bg", CSS> = {
+  container: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: `calc(100vh - ${top}px)`,
+    maxHeight: 0,
+    zIndex: 3,
+    visibility: "hidden",
+    opacity: 0,
+    transition: "all .2s ease-out",
+    overflow: "hidden",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  body: {
+    position: "relative",
+    padding: 10,
+    backgroundColor: "white",
+    zIndex: 1,
+    top: -60,
+    width: 280,
+    borderRadius: 10,
+    border: "1px solid",
+  },
+  bg: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    backdropFilter: "blur(2px)",
+    width: "100%",
+    height: "100%",
+  },
 }

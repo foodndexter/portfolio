@@ -21,6 +21,7 @@ button:active {
 img {
   width: 100%;
   vertical-align: top;
+  transition: all 0.2s ease-out;
 }
 
 *::-webkit-scrollbar {

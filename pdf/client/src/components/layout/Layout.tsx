@@ -8,6 +8,7 @@ import { AppDispatch } from "../../redux/store"
 import { menuHandler } from "../../redux/reducers/sampleSlice"
 import { dexyMenus } from "../../dexybase"
 import { useLocation, useNavigate } from "react-router-dom"
+import { DexyAlert, DexyConfirm, DexyModal } from "../popup/Popup"
 
 interface Props {
   activeMenu: boolean
@@ -26,6 +27,9 @@ const Layout = (props: { children: ReactNode }) => {
     <DexyView id="Dexy Portfolio" style={header.layout}>
       <Header onClick={onClick} activeMenu={activeMenu} color={color} dispatch={dispatch} />
       <Sidebar onClick={onClick} activeMenu={activeMenu} />
+      <DexyAlert />
+      <DexyConfirm />
+      <DexyModal />
       {props.children}
     </DexyView>
   )

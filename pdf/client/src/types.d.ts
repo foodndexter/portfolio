@@ -5,6 +5,9 @@ type Sample = {
   fontWeight: number
   fontFamily?: string
   activeMenu: boolean
+  alert: Popup
+  confirm: Popup
+  modal: Popup
 }
 
 type HandleMenu = { payload: "toggle" | "on" | "off" }
@@ -55,9 +58,9 @@ type Lecture = {
   lec2: string
   lec3: string
   lec4?: string
-  src1: string
-  src2: string
-  src3: string
+  src1?: string
+  src2?: string
+  src3?: string
   src4?: string
   amount: number
   chapter: Chapter | Part
@@ -117,3 +120,17 @@ type ForGetLectures =
   | Book
 
 type LectureBoxBtn = { name: string; short: string[]; path: string; img: string; full: string }
+
+type Popup = { state: boolean; message?: string; okBtn?: string; cancelBtn?: string; type?: string }
+
+type User = {
+  state?: boolean
+  id: string
+  password?: string
+  cart: Lecture[]
+  basket: Lecture[]
+  lectures: Lecture[]
+  payments: Lecture[]
+}
+
+type LoginInput = { id: string; password: string }
