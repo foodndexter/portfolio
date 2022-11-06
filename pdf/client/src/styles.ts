@@ -315,16 +315,58 @@ export const popup: Record<"container" | "body" | "bg", CSS> = {
 export const alertStyle: Record<"container" | "message" | "button", CSS> = {
   container: {
     display: "flex",
-    // flexDirection: "column",
+    flexDirection: "column",
   },
-  message: {},
+  message: {
+    marginBottom: 10,
+  },
   button: {
     color: backgroundColor,
     backgroundColor: color,
     height: 50,
     border: `1pxs solid ${color}`,
-    width: 100,
+    width: "100%",
     borderRadius: 3,
     fontSize,
+  },
+}
+
+export const confirmStyle: Record<"btns" | "okBtn" | "cancleBtn", CSS> = {
+  btns: {},
+  cancleBtn: { color, backgroundColor, border: "1px solid" },
+  okBtn: { marginRight: 10 },
+}
+
+export const cartStyle: Record<"cartItem" | "cartItemWrap" | "checkArea" | "middleArea" | "basket", CSS> = {
+  cartItem: {
+    display: "flex",
+    border: "1px solid",
+    width: "calc(100% - 20px)",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  cartItemWrap: {
+    flexDirection: "column",
+  },
+  checkArea: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    width: 60,
+  },
+  middleArea: {
+    width: "calc(100% - 140px)",
+    margin: "0 10px",
+  },
+  basket: {
+    position: "fixed",
+    bottom: 0,
+    borderTop: "1px solid",
+    width: "100%",
+    height: 60,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
 }

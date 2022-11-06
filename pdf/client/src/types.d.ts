@@ -69,6 +69,7 @@ type Lecture = {
   book: BooksKor
   img?: string
   icon?: string
+  id: string | number
 }
 
 type Chapter = "1과" | "2과" | "3과" | "4과" | "5과" | "6과" | "7과" | "8과" | "9과" | "10과" | "11과" | "12과"

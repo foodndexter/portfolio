@@ -78,6 +78,7 @@ export const engNeKim: NeKim[] = [
     src1: "123123123",
     src2: "123123123",
     src3: "123123123123123",
+    id: 1,
   },
   {
     name: "The Power of Creativity",
@@ -96,6 +97,7 @@ export const engNeKim: NeKim[] = [
     src1: "123123123",
     src2: "123123123",
     src3: "123123123123123",
+    id: 2,
   },
   {
     name: "Sound Life",
@@ -114,6 +116,7 @@ export const engNeKim: NeKim[] = [
     src1: "123123123",
     src2: "123123123",
     src3: "123123123123123",
+    id: 3,
   },
   {
     name: "Toward a Better World",
@@ -132,6 +135,7 @@ export const engNeKim: NeKim[] = [
     src1: "123123123",
     src2: "123123123",
     src3: "123123123123123",
+    id: 4,
   },
   {
     name: "What Matters Most",
@@ -150,6 +154,7 @@ export const engNeKim: NeKim[] = [
     src1: "123123123",
     src2: "123123123",
     src3: "123123123123123",
+    id: 5,
   },
   {
     name: "Beyond the Limits",
@@ -168,6 +173,7 @@ export const engNeKim: NeKim[] = [
     src1: "123123123",
     src2: "123123123",
     src3: "123123123123123",
+    id: 6,
   },
   {
     name: "Finding Out the Wonders",
@@ -186,6 +192,7 @@ export const engNeKim: NeKim[] = [
     src1: "123123123",
     src2: "123123123",
     src3: "123123123123123",
+    id: 7,
   },
   {
     name: "It's Up to You!",
@@ -204,6 +211,7 @@ export const engNeKim: NeKim[] = [
     src1: "123123123",
     src2: "123123123",
     src3: "123123123123123",
+    id: 8,
   },
 ]
 

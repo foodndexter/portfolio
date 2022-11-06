@@ -7,6 +7,7 @@ import { BsCartPlus } from "react-icons/bs"
 import { useAppDispatch, useAppSelector } from "../../redux/hooks"
 import { alertHandler, confirmHandler } from "../../redux/reducers/sampleSlice"
 import { useStateContext } from "../../contextApi/StateProvider"
+import { cartHandler } from "../../redux/reducers/userSlice"
 
 type CSS = React.CSSProperties
 export const LectureItem = (props: { item: Lecture; type: "img" | "icon" }) => {
@@ -23,7 +24,14 @@ export const LectureItem = (props: { item: Lecture; type: "img" | "icon" }) => {
 
   const onCartIcon = () => {
     if (user.state) {
-      dispatch(alertHandler({ state: true, message: "장바구니에 담았습니다.", okBtn: "확인" }))
+      console.log(item.id, user.cart)
+      const check = user.cart.find((target) => target.id === item.id)
+      if (check) {
+        dispatch(alertHandler({ state: true, message: "이미 담긴 강의입니다.", okBtn: "확인" }))
+      } else {
+        dispatch(cartHandler(item))
+        dispatch(confirmHandler({ state: true, message: "장바구니에 담았습니다.", okBtn: "장바구니로", cancelBtn: "계속보기", type: "go cart" }))
+      }
     } else {
       dispatch(confirmHandler({ state: true, cancelBtn: "취소", message: "회원에게만 제공된 기능입니다. 로그인하시겠습니까?", okBtn: "로그인", type: "login" }))
     }

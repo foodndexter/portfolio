@@ -1,8 +1,9 @@
 import React, { ReactNode, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../redux/hooks"
 import { alertHandler, confirmHandler, modalHandler } from "../../redux/reducers/sampleSlice"
 import { AppDispatch } from "../../redux/store"
-import { alertStyle, popup } from "../../styles"
+import { alertStyle, confirmStyle, dexyStyle, popup } from "../../styles"
 import { LoginModal } from "./Modals"
 
 type CSS = React.CSSProperties
@@ -38,9 +39,11 @@ export const DexyAlert = () => {
     <Layout type="alert" dispatch={dispatch} closeFn={closeFn} switch={state}>
       <div style={alertStyle.container}>
         <span style={alertStyle.message}>{message}</span>
+        {/* <div style={{ ...dexyStyle.btnWrap, justifyContent: "flex-end" }}> */}
         <button onClick={closeFn} style={alertStyle.button}>
           {okBtn}
         </button>
+        {/* </div> */}
       </div>
     </Layout>
   )
@@ -55,20 +58,27 @@ export const DexyConfirm = () => {
     dispatch(confirmHandler("off"))
   }
 
+  const navi = useNavigate()
   const onOK = () => {
     if (type === "login") {
       dispatch(modalHandler("login"))
+    } else if (type === "go cart") {
+      navi("/evas/cart")
     }
     closeFn()
   }
 
   return (
     <Layout type="confirm" dispatch={dispatch} closeFn={closeFn} switch={state}>
-      <div>
-        <span>{message}</span>
-        <div>
-          <button onClick={onOK}>{okBtn}</button>
-          <button onClick={closeFn}>{cancelBtn}</button>
+      <div style={alertStyle.container}>
+        <span style={alertStyle.message}>{message}</span>
+        <div style={dexyStyle.btnWrap}>
+          <button onClick={onOK} style={{ ...alertStyle.button, ...confirmStyle.okBtn }}>
+            {okBtn}
+          </button>
+          <button onClick={closeFn} style={{ ...alertStyle.button, ...confirmStyle.cancleBtn }}>
+            {cancelBtn}
+          </button>
         </div>
       </div>
     </Layout>

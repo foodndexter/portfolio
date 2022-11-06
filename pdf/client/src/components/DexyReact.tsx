@@ -47,7 +47,8 @@ export const DexyButton = (props: { onClick?: Function; title?: string; children
       onClick={(e) => {
         onClick && onClick(e)
       }}
-      style={type === "submit" ? submitStyle : btnStyle}>
+      style={type === "submit" ? submitStyle : btnStyle}
+    >
       {children ? children : title}
     </button>
   )
@@ -101,7 +102,7 @@ export const DexyAppView = (props: Props & { id?: string }) => {
   )
 }
 
-export const DexyIcon = (props: { onClick: Function; style?: CSS; name: string; src: string; size?: number }) => {
+export const DexyIcon = (props: { onClick?: Function; style?: CSS; name: string; src: string; size?: number }) => {
   const { style, onClick, name, src } = props
   const [size, setSize] = useState<number>(0)
   useEffect(() => {
@@ -113,7 +114,12 @@ export const DexyIcon = (props: { onClick: Function; style?: CSS; name: string; 
     style ? setBtnStyle({ ...dexyStyle.appIcon, ...style }) : setBtnStyle(dexyStyle.appIcon)
   }, [style])
   return (
-    <button style={btnStyle} onClick={() => onClick()}>
+    <button
+      style={btnStyle}
+      onClick={() => {
+        onClick && onClick()
+      }}
+    >
       <div style={{ ...dexyStyle.appIconWrap, width: size, height: size }}>
         <img src={src} alt={name} />
       </div>

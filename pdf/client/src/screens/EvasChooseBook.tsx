@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { DexyAppView, DexyIcon } from "../components"
 import { eng, gdns, go, megs, psmb, sntg } from "../dexybase"
 import { dexyStyle } from "../styles"
+import EvasCart from "./EvasCart"
 
 const EvasChooseBook = () => {
   const { sort } = useParams()
@@ -24,7 +25,13 @@ const EvasChooseBook = () => {
 
   return (
     <DexyAppView>
-      {sort === "gdns" || sort === "megs" ? <ChooseCategory sort={sort} category={category} navi={navi} /> : sort && <ChooseBook books={books} navi={navi} />}
+      {sort === "gdns" || sort === "megs" ? (
+        <ChooseCategory sort={sort} category={category} navi={navi} />
+      ) : sort && sort === "cart" ? (
+        <EvasCart />
+      ) : (
+        <ChooseBook books={books} navi={navi} />
+      )}
     </DexyAppView>
   )
 }
