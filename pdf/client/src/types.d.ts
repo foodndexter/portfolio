@@ -135,3 +135,5 @@ type User = {
 }
 
 type LoginInput = { id: string; password: string }
+
+type BCButton = { name: string; icon?: string }

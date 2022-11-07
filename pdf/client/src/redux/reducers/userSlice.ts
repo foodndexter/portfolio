@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
+import { engNeKim } from "../../dexybase"
 
-const initialState: User = { state: true, id: "", cart: [], basket: [], lectures: [], payments: [] }
+const initialState: User = { state: true, id: "", cart: [...engNeKim], basket: [], lectures: [], payments: [] }
 
 const userSlice = createSlice({
   name: "user",
@@ -40,8 +41,42 @@ const userSlice = createSlice({
 
       return { ...state, basket }
     },
+    paymentHandler: (state) => {
+      let cart: Lecture[] = [...state.cart]
+      let basket: Lecture[] = [...state.basket]
+      let lectures: Lecture[] = [...state.lectures]
+      let payments: Lecture[] = [...state.payments]
+
+      let copy: Lecture[] = []
+      cart.map((target) => {
+        if (!basket.some((item) => item.id === target.id)) return (copy = [...copy, target])
+      })
+      cart = copy
+
+      copy = []
+      basket.map((target) => (copy = [...copy, target]))
+      lectures = [...lectures, ...copy]
+      payments = [...payments, ...copy]
+      basket = []
+
+      return { ...state, cart, basket, payments, lectures }
+    },
+    CBController: (state, action: { payload: "select all" | "unselect all" | "empty cart" }) => {
+      let cart: Lecture[] = [...state.cart]
+      let basket: Lecture[] = [...state.basket]
+      const { payload } = action
+      if (payload === "empty cart") {
+        cart = []
+        basket = []
+      } else if (payload === "select all") {
+        basket = cart
+      } else if (payload === "unselect all") {
+        basket = []
+      }
+      return { ...state, cart, basket }
+    },
   },
 })
 
-export const { userHandler, cartHandler, basketHandler } = userSlice.actions
+export const { userHandler, cartHandler, basketHandler, CBController, paymentHandler } = userSlice.actions
 export default userSlice.reducer

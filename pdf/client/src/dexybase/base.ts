@@ -221,3 +221,11 @@ export const lectureBoxBtns: LectureBoxBtn[] = [
   { name: "이용약관", path: "", short: ["1. 이용약관 요약본 1", "2. 이용약관 요약본 2", "3. 이용약관 요약본 3"], full: "", img: greenIcon },
   { name: "환불규정", path: "", short: ["1. 환불규정 요약본 1", "2. 환불규정 요약본 2", "3. 환불규정 요약본 3"], full: "", img: blueIcon },
 ]
+
+export const userbarIcons: { name: string; path?: string }[] = [
+  { name: "myLec", path: "myLec" },
+  { name: "cart", path: "cart" },
+  { name: "home" },
+  { name: "payments", path: "payments" },
+  { name: "signout" },
+]

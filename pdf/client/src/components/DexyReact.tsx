@@ -1,7 +1,6 @@
 import React, { ReactNode, useEffect, useState } from "react"
 import { Link } from "react-router-dom"
-import { isIfStatement } from "typescript"
-import { serialize } from "v8"
+import { useStateContext } from "../contextApi/StateProvider"
 import { useAppSelector } from "../redux/hooks"
 import { dexyStyle } from "../styles"
 
@@ -13,7 +12,18 @@ export const DexyView = (props: Props & { id?: string }) => {
 
   const { color, backgroundColor, fontSize, fontWeight, fontFamily } = useAppSelector((state) => state.sample)
 
-  const initialStyle: CSS = { color, backgroundColor, fontWeight, fontSize, fontFamily }
+  const initialStyle: CSS = {
+    color,
+    backgroundColor,
+    fontWeight,
+    fontSize,
+    fontFamily,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    marginTop: 5,
+    width: "100%",
+  }
 
   const [viewStyle, setViewStyle] = useState<CSS>(initialStyle)
 
@@ -66,7 +76,7 @@ export const DexyLink = (props: Props & { to: string; onClick: Function }) => {
     style ? setBtnStyle({ ...initialStyle, ...style }) : setBtnStyle(initialStyle)
   }, [style])
   return (
-    <Link to={to} onClick={() => onClick}>
+    <Link to={to} onClick={() => onClick} style={btnStyle}>
       {children}
     </Link>
   )
@@ -75,26 +85,17 @@ export const DexyLink = (props: Props & { to: string; onClick: Function }) => {
 export const DexyAppView = (props: Props & { id?: string }) => {
   const { style, children, id } = props
 
+  const { screen } = useStateContext()
+
   const { color, backgroundColor, fontSize, fontWeight, fontFamily } = useAppSelector((state) => state.sample)
 
-  const [screen, setScreen] = useState<{ width: number; height: number }>({ width: window.innerWidth, height: window.innerHeight })
-
-  useEffect(() => {
-    const getScreen = () => setScreen({ width: window.innerWidth, height: window.innerHeight })
-
-    window.addEventListener("resize", getScreen)
-
-    return () => window.removeEventListener("resize", getScreen)
-  }, [screen.width])
-
-  const initialStyle: CSS = { color, backgroundColor, fontWeight, fontSize, fontFamily, width: screen.width, ...dexyStyle.appCenter }
+  const initialStyle: CSS = { color, backgroundColor, fontWeight, fontSize, fontFamily, ...dexyStyle.appCenter }
 
   const [viewStyle, setViewStyle] = useState<CSS>(initialStyle)
 
   useEffect(() => {
-    style ? setViewStyle({ ...initialStyle, ...style }) : setViewStyle(initialStyle)
+    style ? setViewStyle({ ...initialStyle, width: screen.width, height: "calc(100% - 120px)", ...style }) : setViewStyle(initialStyle)
   }, [style])
-
   return (
     <div style={viewStyle} id={id}>
       {children}
@@ -137,20 +138,24 @@ export const ResponsiveBox169 = (props: { children?: Child; style?: CSS; width?:
 
     window.addEventListener("resize", getScreen)
     return () => window.removeEventListener("resize", getScreen)
-  }, [screen.width])
+  }, [screen])
 
-  const initialStyle: CSS = { width: screen.width, height: (screen.width / 16) * 9, overflow: "hidden" }
+  const initialStyle: CSS = { overflow: "hidden" }
   const [boxStyle, setBoxStyle] = useState(initialStyle)
   useEffect(() => {
     const propsWidth = Number(String(props.width).split("%")[0])
-    const sample = { width: props.width }
     if (style) {
       setBoxStyle(
         propsWidth
           ? { ...initialStyle, ...style, width: props.width, height: (((screen.width / 100) * propsWidth) / 16) * 9 }
-          : { ...initialStyle, ...style, width: props.width, height: (((screen.width / 100) * propsWidth) / 16) * 9 }
+          : { ...initialStyle, ...style, width: props.width, height: (screen.width / 16) * 9 }
       )
-    } else setBoxStyle(propsWidth ? { ...initialStyle } : initialStyle)
+    } else
+      setBoxStyle(
+        propsWidth
+          ? { ...initialStyle, width: props.width, height: (((screen.width / 100) * propsWidth) / 16) * 9 }
+          : { ...initialStyle, width: props.width, height: (screen.width / 16) * 9 }
+      )
   }, [style, screen, props.width])
   return <div style={boxStyle}>{children}</div>
 }

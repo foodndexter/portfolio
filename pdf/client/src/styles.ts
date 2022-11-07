@@ -95,7 +95,7 @@ export const dexyStyle: Record<
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: "50%",
+    width: "100%",
     maxWidth: 300,
     boxShadow: `0 3px 6px rgba(${dexyRGB}, 1)`,
   },
@@ -337,7 +337,10 @@ export const confirmStyle: Record<"btns" | "okBtn" | "cancleBtn", CSS> = {
   okBtn: { marginRight: 10 },
 }
 
-export const cartStyle: Record<"cartItem" | "cartItemWrap" | "checkArea" | "middleArea" | "basket", CSS> = {
+export const cartStyle: Record<
+  "cartItem" | "cartItemWrap" | "checkArea" | "middleArea" | "basket" | "basketWrap" | "paybtn" | "basketCtrl" | "bcWrap" | "bcButtons",
+  CSS
+> = {
   cartItem: {
     display: "flex",
     border: "1px solid",
@@ -361,12 +364,94 @@ export const cartStyle: Record<"cartItem" | "cartItemWrap" | "checkArea" | "midd
   },
   basket: {
     position: "fixed",
-    bottom: 0,
-    borderTop: "1px solid",
+    bottom: 60,
+    borderTop: `1px solid rgba(${dexyRGB.black}, .1)`,
     width: "100%",
     height: 60,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    visibility: "hidden",
+    opacity: 0,
+    transition: "all .2s ease-out",
+    backgroundColor,
+    zIndex: 1,
+  },
+  basketWrap: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  paybtn: {
+    padding: "10px 20px",
+    borderRadius: 3,
+    border: `1px solid ${color}`,
+    marginLeft: 10,
+    color: backgroundColor,
+    backgroundColor: color,
+  },
+  basketCtrl: {
+    position: "fixed",
+    top: 60,
+    width: "100%",
+    backgroundColor,
+    zIndex: 1,
+  },
+  bcWrap: {
+    maxWidth: 1200,
+    margin: "0 auto",
+    display: "flex",
+    alignItems: "center",
+    height: 60,
+    borderBottom: `1px solid rgba(${dexyRGB.black}, .1)`,
+    justifyContent: "flex-end",
+  },
+  bcButtons: {
+    width: "100%",
+    maxWidth: 150,
+    border: "1px solid",
+    height: "calc(100% - 20px)",
+    marginRight: 10,
+    borderRadius: 3,
+    fontSize: 16,
+  },
+}
+
+export const userbar: Record<"container" | "wrap" | "icons" | "cartNumber", CSS> = {
+  container: {
+    position: "fixed",
+    bottom: 0,
+    width: "100%",
+    backgroundColor,
+    zIndex: 10,
+  },
+  wrap: {
+    maxWidth: 1200,
+    margin: "0 auto",
+    display: "flex",
+    height: 60,
+    borderTop: `1px solid rgba(${dexyRGB.black}, .1)`,
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: "0 10px",
+  },
+  icons: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+  },
+  cartNumber: {
+    display: "flex",
+    width: 15,
+    height: 15,
+    position: "absolute",
+    top: 0,
+    right: 0,
+    color: backgroundColor,
+    backgroundColor: `rgba(${dexyRGB.red})`,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    fontSize: 10,
   },
 }

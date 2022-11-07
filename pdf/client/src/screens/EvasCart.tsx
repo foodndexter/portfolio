@@ -1,19 +1,26 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { DexyButton, DexyIcon, getPrice } from "../components"
+import { DexyButton, DexyIcon, DexyView, getPrice } from "../components"
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { alertHandler } from "../redux/reducers/sampleSlice"
-import { basketHandler } from "../redux/reducers/userSlice"
+import { basketHandler, CBController, paymentHandler } from "../redux/reducers/userSlice"
 import { cartStyle, dexyStyle } from "../styles"
 import { MdCheckBoxOutlineBlank, MdOutlineCheckBox, MdOutlineCheckBoxOutlineBlank } from "react-icons/md"
+import { AppDispatch } from "../redux/store"
 
 const EvasCart = () => {
   const { user } = useAppSelector((state) => state)
+
+  useEffect(() => {
+    console.log(user)
+  }, [user])
 
   const [cart, setCart] = useState<Lecture[]>([])
   const [basket, setBasket] = useState<Lecture[]>([])
 
   const navi = useNavigate()
+  const dispatch = useAppDispatch()
+
   const whenEmpty = () => navi("/evas")
 
   useEffect(() => {
@@ -21,26 +28,30 @@ const EvasCart = () => {
     setBasket(user.basket)
   }, [user])
   return (
-    <>
+    <DexyView style={{ margin: "65px 0 125px", maxWidth: 500 }}>
       {cart && cart.length > 0 ? (
-        cart.map((item, index) => <CartItem key={index} item={item} basket={basket} />)
+        <>
+          <BasketCtrl dispatch={dispatch} cart={cart} basket={basket} />
+          {cart.map((item, index) => (
+            <CartItem key={index} item={item} basket={basket} dispatch={dispatch} />
+          ))}
+        </>
       ) : (
         <div style={{ ...dexyStyle.btnWrap, ...cartStyle.cartItemWrap }}>
           <span>담겨진 강의가 없습니다.</span>
           <DexyButton onClick={whenEmpty}>강의 보러 가기</DexyButton>
         </div>
       )}
-      <Basket basket={basket} />
-    </>
+      <Basket basket={basket} navi={navi} dispatch={dispatch} />
+    </DexyView>
   )
 }
 
 export default EvasCart
 
-const CartItem = (props: { item: Lecture; basket: Lecture[] }) => {
-  const { item, basket } = props
-  const { name, title, img, icon, id, category, book, chapter } = item
-  const dispatch = useAppDispatch()
+const CartItem = (props: { item: Lecture; basket: Lecture[]; dispatch: AppDispatch }) => {
+  const { item, basket, dispatch } = props
+  const { name, img, icon, id, category, book, chapter } = item
   const onClick = () => {
     dispatch(basketHandler(item))
   }
@@ -52,7 +63,6 @@ const CartItem = (props: { item: Lecture; basket: Lecture[] }) => {
     if (check) {
       setIsInBasket(true)
     } else setIsInBasket(false)
-    console.log(basket)
   }, [basket])
 
   const [price, setPrice] = useState("")
@@ -68,17 +78,18 @@ const CartItem = (props: { item: Lecture; basket: Lecture[] }) => {
         </span>
         <p style={dexyStyle.oneLine}>{name}</p>
       </div>
-      <button style={cartStyle.checkArea}>
+      <div style={cartStyle.checkArea}>
         <span>{isInBasket ? <MdOutlineCheckBox size={25} /> : <MdOutlineCheckBoxOutlineBlank size={25} />}</span>
         <span>{price}원</span>
-      </button>
+      </div>
     </button>
   )
 }
 
 type CSS = React.CSSProperties
-const Basket = (props: { basket: Lecture[] }) => {
-  const { basket } = props
+
+const Basket = (props: { basket: Lecture[]; navi: any; dispatch: AppDispatch }) => {
+  const { basket, dispatch } = props
   const [subTotal, setSubTotal] = useState(0)
   const [price, setPrice] = useState("")
 
@@ -90,16 +101,54 @@ const Basket = (props: { basket: Lecture[] }) => {
     setPrice(getPrice(total))
     if (basket.length > 0) {
       setBasketStyle({ ...initialStyle, visibility: "visible", opacity: 1 })
-    }
-    setBasketStyle(initialStyle)
+    } else setBasketStyle(initialStyle)
   }, [basket])
 
   const initialStyle: CSS = cartStyle.basket
   const [basketStyle, setBasketStyle] = useState<CSS>(initialStyle)
 
+  const onPayBtn = () => {
+    console.log("toss payment has been made")
+    dispatch(paymentHandler())
+  }
+
   return (
     <div style={basketStyle}>
-      {basket.length}개의 강의: {price}원
+      <div style={cartStyle.basketWrap}>
+        <span>
+          {basket.length}개의 강의: {price}원
+        </span>{" "}
+        <button onClick={onPayBtn} style={cartStyle.paybtn}>
+          결제하기
+        </button>
+      </div>
+    </div>
+  )
+}
+
+const BasketCtrl = (props: { dispatch: AppDispatch; basket: Lecture[]; cart: Lecture[] }) => {
+  const { dispatch, basket, cart } = props
+
+  const buttons: string[] = ["전체선택", "장바구니 비우기"]
+
+  const onClick = (name: string) => {
+    if (name === "전체선택") {
+      if (basket.length > 0 && basket === cart) {
+        console.log("all in basket")
+        dispatch(CBController("unselect all"))
+      } else dispatch(CBController("select all"))
+    } else if (name === "장바구니 비우기") dispatch(CBController("empty cart"))
+  }
+  return (
+    <div style={cartStyle.basketCtrl}>
+      <div style={cartStyle.bcWrap}>
+        {buttons &&
+          buttons.map((item, index) => (
+            <button key={index} style={cartStyle.bcButtons} onClick={() => onClick(item)}>
+              {index === 0 ? (basket.length > 0 && cart === basket ? "전체선택해제" : item) : item}
+            </button>
+          ))}
+      </div>
     </div>
   )
 }

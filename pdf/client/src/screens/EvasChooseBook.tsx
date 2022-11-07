@@ -19,12 +19,8 @@ const EvasChooseBook = () => {
   const [books, setBooks] = useState<BookList[]>([])
   const navi = useNavigate()
 
-  useEffect(() => {
-    console.log(books)
-  }, [books])
-
   return (
-    <DexyAppView>
+    <>
       {sort === "gdns" || sort === "megs" ? (
         <ChooseCategory sort={sort} category={category} navi={navi} />
       ) : sort && sort === "cart" ? (
@@ -32,7 +28,7 @@ const EvasChooseBook = () => {
       ) : (
         <ChooseBook books={books} navi={navi} />
       )}
-    </DexyAppView>
+    </>
   )
 }
 
@@ -47,18 +43,13 @@ const ChooseCategory = (props: { sort: string; category: CategoryList[]; navi: a
   const [chosenCategory, setChosenCategory] = useState<Category>("eng")
 
   const onClick = (item: CategoryList) => {
-    // console.log(item.name, pathname)
     setChosenCategory(item.path)
     setIsCategoryChosen(true)
     setBooks(getBooks(item.path))
   }
 
-  useEffect(() => {
-    console.log(books)
-  }, [books])
-
   return (
-    <>
+    <DexyAppView>
       {isCategoryChosen ? (
         <ChooseBook books={books} navi={navi} category={chosenCategory} />
       ) : (
@@ -67,7 +58,7 @@ const ChooseCategory = (props: { sort: string; category: CategoryList[]; navi: a
             category.map((item, index) => <DexyIcon key={index} name={item.name} onClick={() => onClick(item)} src={item.icon} style={{ margin: "0 10px" }} />)}
         </div>
       )}
-    </>
+    </DexyAppView>
   )
 }
 
@@ -83,7 +74,7 @@ const ChooseBook = (props: { books: BookList[]; navi: any; category?: Category }
   }
 
   return (
-    <>
+    <DexyAppView>
       {books.length > 0 ? (
         <div style={dexyStyle.btnWrap}>
           {books &&
@@ -92,7 +83,7 @@ const ChooseBook = (props: { books: BookList[]; navi: any; category?: Category }
       ) : (
         <>Loading</>
       )}
-    </>
+    </DexyAppView>
   )
 }
 
@@ -108,7 +99,6 @@ const getCategory = (sort: Sort) => {
 }
 
 const getBooks = (sort: Sort | Category | string) => {
-  console.log("target:", sort)
   let result: BookList[] = []
   switch (sort) {
     case "sntg":

@@ -9,6 +9,7 @@ import { menuHandler } from "../../redux/reducers/sampleSlice"
 import { dexyMenus } from "../../dexybase"
 import { useLocation, useNavigate } from "react-router-dom"
 import { DexyAlert, DexyConfirm, DexyModal } from "../popup/Popup"
+import { UserBar } from "../forEvas/ForEvas"
 
 interface Props {
   activeMenu: boolean
@@ -17,19 +18,21 @@ interface Props {
 
 const Layout = (props: { children: ReactNode }) => {
   const dispatch = useAppDispatch()
-  const { activeMenu, color } = useAppSelector((state) => state.sample)
+  const { sample, user } = useAppSelector((state) => state)
+  const { activeMenu, color } = sample
   const navi = useNavigate()
   const onClick = (path: string) => {
     navi(`/${path}`)
     dispatch(menuHandler("off"))
   }
   return (
-    <DexyView id="Dexy Portfolio" style={header.layout}>
+    <DexyView id="Dexy Portfolio" style={user.state ? { ...header.layout, paddingBottom: 80 } : header.layout}>
       <Header onClick={onClick} activeMenu={activeMenu} color={color} dispatch={dispatch} />
       <Sidebar onClick={onClick} activeMenu={activeMenu} />
       <DexyAlert />
       <DexyConfirm />
       <DexyModal />
+      <UserBar />
       {props.children}
     </DexyView>
   )
