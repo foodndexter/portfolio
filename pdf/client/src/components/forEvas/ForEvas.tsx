@@ -17,7 +17,7 @@ import { spawn } from "child_process"
 type CSS = React.CSSProperties
 export const LectureItem = (props: { item: Lecture; type: "img" | "icon" }) => {
   const { item, type } = props
-  const { amount, book, chapter, name, title, lec1, lec2, lec3, sort, src1, src2, src3, category, icon, img, lec4, src4 } = item
+  const { amount, book, chapter, name, title, sort, category, icon, img } = item
   const fullName = `${category} ${book} ${chapter}`
 
   const dispatch = useAppDispatch()
@@ -95,12 +95,8 @@ export const LectureItem = (props: { item: Lecture; type: "img" | "icon" }) => {
 }
 
 export const LectureBox = (props: { btns: LectureBoxBtn[]; src: number }) => {
-  const { btns } = props
+  const { btns, src } = props
 
-  const [src, setSrc] = useState("")
-  useEffect(() => {
-    props.src && setSrc(`https://player.vimeo.com/video/${props.src}`)
-  }, [props.src])
   const contentsHandler = (index: number) => setContents(index)
 
   const [contents, setContents] = useState(0)
@@ -109,9 +105,7 @@ export const LectureBox = (props: { btns: LectureBoxBtn[]; src: number }) => {
     <div>
       <ResponsiveBox169>
         {btns[contents].name === "미리보기" ? (
-          <div style={{ paddingBottom: "56.25%", maxWidth: "100%", position: "relative" }}>
-            <iframe src={src} frameBorder="0" style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}></iframe>
-          </div>
+          <Vimeo src={src} />
         ) : (
           <div>
             <div>{btns[contents].short && btns[contents].short.map((line, index) => <span key={index}>{line}</span>)}</div>
@@ -135,6 +129,19 @@ export const LectureBox = (props: { btns: LectureBoxBtn[]; src: number }) => {
   )
 }
 
+export const Vimeo = (props: { src: number }) => {
+  const [src, setSrc] = useState("")
+  useEffect(() => {
+    props.src && setSrc(`https://player.vimeo.com/video/${props.src}`)
+  }, [props.src])
+
+  return (
+    <div style={{ paddingBottom: "56.25%", maxWidth: "100%", position: "relative" }}>
+      <iframe src={src} frameBorder="0" style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}></iframe>
+    </div>
+  )
+}
+
 export const getPrice = (price: number) => {
   let result: string = String(price)
   const length = result.length
@@ -151,7 +158,8 @@ export const getPrice = (price: number) => {
 
 export const UserBar = () => {
   const { pathname } = useLocation()
-  const { state } = useAppSelector((state) => state.user)
+  const { user } = useAppSelector((state) => state)
+  const { state, lectures } = user
 
   const icons = [
     pathname.includes("myLec") ? <AiFillFolderOpen size={30} /> : <AiOutlineFolder size={30} />,
@@ -186,6 +194,17 @@ export const UserBar = () => {
       } else dispatch(confirmHandler({ state: true, message: "정말 로그아웃 하시겠습니까?", okBtn: "로그아웃", cancelBtn: "취소", type: "logout" }))
     }
   }
+
+  const [myLecture, setMyLecture] = useState<MyLecture[]>([])
+  useEffect(() => {
+    let copy: MyLecture[] = []
+    lectures &&
+      lectures.map((item) => {
+        if (item.remaining > 25) return (copy = [...copy, item])
+      })
+    setMyLecture(copy)
+  }, [lectures])
+
   return (
     <>
       {pathname.includes("evas") && state && (
@@ -193,8 +212,12 @@ export const UserBar = () => {
           <div style={styling.wrap}>
             {userbarIcons &&
               userbarIcons.map((item, index) => (
-                <button key={index} style={index === 1 ? { ...styling.icons, position: "relative" } : styling.icons} onClick={() => onClick(item)}>
+                <button
+                  key={index}
+                  style={index === 1 || index === 0 ? { ...styling.icons, position: "relative" } : styling.icons}
+                  onClick={() => onClick(item)}>
                   {index === 1 && cart.length > 0 && <span style={userbar.cartNumber}>{cart.length}</span>}
+                  {index === 0 && myLecture.length > 0 && <span style={userbar.cartNumber}>{myLecture.length}</span>}
                   {icons[index]}
                 </button>
               ))}

@@ -29,8 +29,8 @@ const sampleSlice = createSlice({
       if (action.payload === "off") {
         return { ...state, alert: { state: false } }
       } else {
-        const { cancelBtn, message, okBtn } = action.payload
-        return { ...state, alert: { state: true, cancelBtn, message, okBtn } }
+        const { cancelBtn, message, okBtn, type } = action.payload
+        return { ...state, alert: { state: true, cancelBtn, message, okBtn, type } }
       }
     },
     confirmHandler: (state, action: { payload: "off" | Popup }) => {

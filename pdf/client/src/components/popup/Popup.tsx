@@ -32,15 +32,23 @@ const Layout = (props: { children: ReactNode; type: "alert" | "modal" | "confirm
 export const DexyAlert = () => {
   const dispatch = useAppDispatch()
   const { alert } = useAppSelector((state) => state.sample)
-  const { state, message, okBtn } = alert
+  const { state, message, okBtn, type } = alert
 
+  const navi = useNavigate()
   const closeFn = () => dispatch(alertHandler("off"))
+  const onOkBtn = () => {
+    closeFn()
+    switch (type) {
+      case "not found":
+        return navi("/evas")
+    }
+  }
   return (
-    <Layout type="alert" dispatch={dispatch} closeFn={closeFn} switch={state}>
+    <Layout type="alert" dispatch={dispatch} closeFn={onOkBtn} switch={state}>
       <div style={alertStyle.container}>
         <span style={alertStyle.message}>{message}</span>
         {/* <div style={{ ...dexyStyle.btnWrap, justifyContent: "flex-end" }}> */}
-        <button onClick={closeFn} style={alertStyle.button}>
+        <button onClick={onOkBtn} style={alertStyle.button}>
           {okBtn}
         </button>
         {/* </div> */}
@@ -60,12 +68,15 @@ export const DexyConfirm = () => {
 
   const navi = useNavigate()
   const onOK = () => {
-    if (type === "login") {
-      dispatch(modalHandler("login"))
-    } else if (type === "go cart") {
-      navi("/evas/cart")
-    }
     closeFn()
+    switch (type) {
+      case "login":
+        return dispatch(modalHandler("login"))
+      case "go cart":
+        return navi("/evas/cart")
+      case "mylec":
+        return navi("/evas/myLec")
+    }
   }
 
   return (

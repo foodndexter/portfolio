@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react"
-import { useLocation, useNavigate, useParams } from "react-router-dom"
+import { Route, Routes, useLocation, useNavigate, useParams } from "react-router-dom"
 import { DexyAppView, DexyIcon } from "../components"
 import { eng, gdns, go, megs, psmb, sntg } from "../dexybase"
 import { dexyStyle } from "../styles"
 import EvasCart from "./EvasCart"
+import EvasMyLec from "./EvasMyLec"
+import EvasPayments from "./EvasPayments"
 
 const EvasChooseBook = () => {
   const { sort } = useParams()
@@ -25,6 +27,10 @@ const EvasChooseBook = () => {
         <ChooseCategory sort={sort} category={category} navi={navi} />
       ) : sort && sort === "cart" ? (
         <EvasCart />
+      ) : sort === "payments" ? (
+        <EvasPayments />
+      ) : sort === "myLec" ? (
+        <EvasMyLec />
       ) : (
         <ChooseBook books={books} navi={navi} />
       )}
@@ -117,4 +123,8 @@ const getBooks = (sort: Sort | Category | string) => {
       return (result = go)
   }
   return result
+}
+
+const Sample = () => {
+  return <div>sample</div>
 }

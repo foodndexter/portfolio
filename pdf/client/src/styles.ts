@@ -16,6 +16,8 @@ let fontWeight: number = 400
 let fontFamily: string = ""
 let color: string = "black"
 let backgroundColor: string = "white"
+let margin = "0 auto"
+let maxWidth = 1200
 
 export const header: Record<"layout" | "container" | "wrap" | "logo" | "menu", CSS> = {
   layout: {
@@ -53,7 +55,7 @@ export const header: Record<"layout" | "container" | "wrap" | "logo" | "menu", C
 export const sidebar: Record<"container" | "wrap" | "menuItem", CSS> = {
   container: {
     position: "fixed",
-    top,
+    top: 60,
     left: 0,
     width: "100%",
     height: `calc(100vh - ${top}px)`,
@@ -62,7 +64,7 @@ export const sidebar: Record<"container" | "wrap" | "menuItem", CSS> = {
     opacity: 0,
     zIndex: 999,
   },
-  wrap: { display: "flex", flexDirection: "column", height: "100%" },
+  wrap: { display: "flex", flexDirection: "column", height: "100%", width: "100%" },
   menuItem: {
     fontSize,
     fontWeight,
@@ -74,7 +76,19 @@ export const sidebar: Record<"container" | "wrap" | "menuItem", CSS> = {
 }
 
 export const dexyStyle: Record<
-  "appCenter" | "appButton" | "appIcon" | "appIconWrap" | "appIconName" | "btnWrap" | "bold" | "oneLine" | "inputWrap" | "label" | "input" | "submitBtn",
+  | "appCenter"
+  | "appButton"
+  | "appIcon"
+  | "appIconWrap"
+  | "appIconName"
+  | "appIconOption"
+  | "btnWrap"
+  | "bold"
+  | "oneLine"
+  | "inputWrap"
+  | "label"
+  | "input"
+  | "submitBtn",
   CSS
 > = {
   appCenter: {
@@ -103,12 +117,29 @@ export const dexyStyle: Record<
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
+    position: "relative",
     alignItems: "center",
   },
   appIconWrap: {
     borderRadius: 20,
     overflow: "hidden",
     border: "1px solid",
+  },
+  appIconOption: {
+    position: "absolute",
+    top: 5,
+    right: 5,
+    transform: "translate(50%, -50%)",
+    width: 15,
+    height: 15,
+    backgroundColor: `rgb(${dexyRGB.red})`,
+    borderRadius: 10,
+    color: "white",
+    fontSize: 10,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 2,
   },
   appIconName: {
     fontSize,
@@ -454,4 +485,76 @@ export const userbar: Record<"container" | "wrap" | "icons" | "cartNumber", CSS>
     borderRadius: 10,
     fontSize: 10,
   },
+}
+
+export const mylec: Record<"container" | "lContainer" | "lItem" | "lFilterName" | "lCategory" | "lAppIcon", CSS> = {
+  container: {},
+  lContainer: {
+    display: "flex",
+    flexFlow: "row wrap",
+    position: "relative",
+    border: "1px solid",
+    borderRadius: 20,
+    backdropFilter: "blur(3px)",
+    backgroundColor: `rgba(${dexyRGB.blue}, 0.05)`,
+    padding: "40px 20px 0",
+    maxWidth: 1160,
+    margin,
+    width: "calc(100% - 60px)",
+    marginBottom: 20,
+  },
+  lFilterName: {
+    position: "absolute",
+    top: 10,
+    left: 10,
+    fontSize: 16,
+  },
+  lItem: {
+    position: "relative",
+    display: "flex",
+    flexFlow: "row wrap",
+    marginBottom: 20,
+  },
+  lCategory: {},
+  lAppIcon: {},
+}
+
+export const takinglec: Record<"container" | "contentsButtons" | "infoWrap" | "infoTitle" | "infoBody", CSS> = {
+  container: {
+    width: "100%",
+    maxWidth,
+    margin,
+  },
+  contentsButtons: {
+    height: 50,
+    border: "1px solid",
+  },
+  infoWrap: {},
+  infoTitle: {},
+  infoBody: {},
+}
+
+export const paymentStyle: Record<"iContainer" | "iNames" | "inTitle" | "inSubTitle" | "iDetails" | "idPurchasedAt" | "idPrice" | "idButton", CSS> = {
+  iContainer: {
+    border: "1px solid",
+    padding: 10,
+    width: "calc(100% - 20px)",
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  iNames: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  inSubTitle: {
+    fontSize: 16,
+  },
+  inTitle: {},
+  iDetails: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  idPurchasedAt: { fontSize: 14, color: `rgba(${dexyRGB.black}, .5)` },
+  idPrice: {},
+  idButton: {},
 }

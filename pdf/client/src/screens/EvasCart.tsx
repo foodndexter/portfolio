@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { DexyButton, DexyIcon, DexyView, getPrice } from "../components"
+import { DexyAppView, DexyButton, DexyIcon, DexyView, getPrice } from "../components"
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
-import { alertHandler } from "../redux/reducers/sampleSlice"
+import { alertHandler, confirmHandler } from "../redux/reducers/sampleSlice"
 import { basketHandler, CBController, paymentHandler } from "../redux/reducers/userSlice"
 import { cartStyle, dexyStyle } from "../styles"
 import { MdCheckBoxOutlineBlank, MdOutlineCheckBox, MdOutlineCheckBoxOutlineBlank } from "react-icons/md"
@@ -10,10 +10,6 @@ import { AppDispatch } from "../redux/store"
 
 const EvasCart = () => {
   const { user } = useAppSelector((state) => state)
-
-  useEffect(() => {
-    console.log(user)
-  }, [user])
 
   const [cart, setCart] = useState<Lecture[]>([])
   const [basket, setBasket] = useState<Lecture[]>([])
@@ -110,6 +106,9 @@ const Basket = (props: { basket: Lecture[]; navi: any; dispatch: AppDispatch }) 
   const onPayBtn = () => {
     console.log("toss payment has been made")
     dispatch(paymentHandler())
+    dispatch(
+      confirmHandler({ state: true, message: "결제완료 되었습니다. 나의강의에서 확인해보시겠습니까?", okBtn: "네 ㄱㄱ", cancelBtn: "ㄴㄴ", type: "mylec" })
+    )
   }
 
   return (

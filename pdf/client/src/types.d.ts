@@ -54,14 +54,8 @@ type Lecture = {
   name: string
   title: string
   price: 10000 | 15000
-  lec1: string
-  lec2: string
-  lec3: string
-  lec4?: string
-  src1?: string
-  src2?: string
-  src3?: string
-  src4?: string
+  lec: string[]
+  src: number[]
   amount: number
   chapter: Chapter | Part
   sort: SortKor
@@ -130,10 +124,38 @@ type User = {
   password?: string
   cart: Lecture[]
   basket: Lecture[]
-  lectures: Lecture[]
-  payments: Lecture[]
+  lectures: MyLecture[]
+  payments: MyLecture[]
 }
+type MyLecture = Lecture & { expiresIn: number; purchasedAt: string; remaining: number }
 
 type LoginInput = { id: string; password: string }
 
 type BCButton = { name: string; icon?: string }
+
+type EvasFilter =
+  | string
+  | "고1 2021년"
+  | "고1 2022년"
+  | "고2 2021년"
+  | "고2 2022년"
+  | "23학번"
+  | "22학번"
+  | "책이름 A"
+  | "책이름 B"
+  | "책이름 C"
+  | "영어 천재 이재영"
+  | "영어 비상 홍민표"
+  | "영어 지학사 민찬규"
+  | "영어 능률 김성곤"
+  | "영어 YBM 박준언"
+  | "영어I 천재 이재영"
+  | "영어I 비상 홍민표"
+  | "영어I 지학사 민찬규"
+  | "영어I 능률 김성곤"
+  | "영어I YBM 박준언"
+  | "영어II 천재 이재영"
+  | "영어II 비상 홍민표"
+  | "영어II 지학사 민찬규"
+  | "영어II 능률 김성곤"
+  | "영어II YBM 박준언"

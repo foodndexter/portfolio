@@ -3,6 +3,13 @@ import { engNeKim } from "../../dexybase"
 
 const initialState: User = { state: true, id: "", cart: [...engNeKim], basket: [], lectures: [], payments: [] }
 
+const date = new Date()
+const month = date.getMonth() + 1
+const day = date.getDate()
+const year = date.getFullYear()
+const today = `${year}/${month}/${day}`
+const lectureDay = 28
+
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -44,8 +51,8 @@ const userSlice = createSlice({
     paymentHandler: (state) => {
       let cart: Lecture[] = [...state.cart]
       let basket: Lecture[] = [...state.basket]
-      let lectures: Lecture[] = [...state.lectures]
-      let payments: Lecture[] = [...state.payments]
+      let lectures: MyLecture[] = [...state.lectures]
+      let payments: MyLecture[] = [...state.payments]
 
       let copy: Lecture[] = []
       cart.map((target) => {
@@ -53,10 +60,13 @@ const userSlice = createSlice({
       })
       cart = copy
 
-      copy = []
-      basket.map((target) => (copy = [...copy, target]))
-      lectures = [...lectures, ...copy]
-      payments = [...payments, ...copy]
+      let copy2: MyLecture[] = []
+      // today = MM/DD/YYYY
+      basket.map((target) => {
+        copy2 = [...copy2, { ...target, expiresIn: lectureDay, purchasedAt: today, remaining: getRemaingDays(lectureDay, today) }]
+      })
+      lectures = [...lectures, ...copy2]
+      payments = [...payments, ...copy2]
       basket = []
 
       return { ...state, cart, basket, payments, lectures }
@@ -80,3 +90,22 @@ const userSlice = createSlice({
 
 export const { userHandler, cartHandler, basketHandler, CBController, paymentHandler } = userSlice.actions
 export default userSlice.reducer
+
+export const getRemaingDays = (expiresIn: number, purchasedAt: string) => {
+  const date = new Date()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const year = date.getFullYear()
+  const today = `${month}/${day}/${year}`
+
+  const date1 = new Date(purchasedAt)
+  const date2 = new Date(today)
+
+  // To calculate the time difference of two dates
+  var Difference_In_Time = date2.getTime() - date1.getTime()
+
+  // To calculate the no. of days between two dates
+  var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24)
+
+  return expiresIn - Difference_In_Days
+}
