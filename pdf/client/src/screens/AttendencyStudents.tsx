@@ -6,7 +6,7 @@ import { IoIosArrowBack } from "react-icons/io"
 import { FiSearch } from "react-icons/fi"
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { alertHandler } from "../redux/reducers/sampleSlice"
-import { liftArray, liftHandler } from "../redux/reducers/lifter"
+import { liftArray,  } from "../redux/reducers/lifter"
 
 const AttendencyStudents = () => {
   const { screen } = useStateContext()
@@ -44,29 +44,34 @@ const AttendencyStudents = () => {
   const { studentList } = useAppSelector((state) => state.attendency)
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    console.log(studentList[1].status)
-  }, [studentList])
   const find = () => {
     let found: AStudent[] = []
-    studentList.map((student) => {
-      const target = student.phone[2]
-      if (target === input) {
-        console.log(student)
-        return (found = [...found, student])
-      }
-    })
+    if (input.length <= 3) {
+      dispatch(alertHandler({ state: true, message: "4자리 모두 입력해주세요", okBtn: "확인" }))
+    } else {
+      studentList.map((student) => {
+        const target = student.phone[2]
+        if (target === input) {
+          console.log(student)
+          return (found = [...found, student])
+        }
+      })
 
-    console.log(found)
-    if (found.length > 0) {
-      dispatch(alertHandler({ state: true, type: "attendencyStudent", okBtn: "취소" }))
-      dispatch(liftArray(found))
-    } else dispatch(alertHandler({ state: true, message: "없는 번호입니다.", okBtn: "확인" }))
-    setInput("")
+      console.log(found)
+      if (found.length > 0) {
+        dispatch(alertHandler({ state: true, type: "attendencyStudent", okBtn: "취소" }))
+        dispatch(liftArray(found))
+      } else dispatch(alertHandler({ state: true, message: "없는 번호입니다.", okBtn: "확인" }))
+      setInput("")
+    }
   }
   const ButtonWidth = "33.3333333333333333%"
   const ButtonHeight = "25%"
 
+  const Container = styled("div", {
+    width: "calc(100% - 20px)",
+    maxWidth: 500,
+  })
   const ButtonWrap = styled("div", {
     width: "100%",
     height: `calc(100vh - 240px)`,
@@ -74,46 +79,76 @@ const AttendencyStudents = () => {
     flexFlow: "row wrap",
     justifyContent: "center",
     position: "relative",
+    maxHeight: 600,
+    marginBottom: 10,
   })
 
   const InputWrap = styled("div", {
     width: "100%",
     margin: "10px 0",
-    height: 50,
     display: "flex",
-    flexDirection: "column",
+    marginTop: 70,
+    justifyContent: "center",
+    position: "relative",
   })
 
-  const TextInput = styled("input", {
+  const Span = styled("span", {
+    width: "20%",
+    height: 2,
+    borderRadius: 100,
+    backgroundColor: "Black",
+    display: "block",
+    margin: "0 10px",
+  })
+
+  const Numbers = styled("div", {
+    width: "100%",
+    position: "absolute",
+    bottom: 0,
+    display: "flex",
+    justifyContent: "center",
+  })
+
+  const Number = styled("span", {
+    width: "20%",
+    display: "block",
+    margin: "0 10px",
     textAlign: "center",
-    height: "100%",
-    fontSize: 20,
-    border: "1px solid",
-    borderRadius: 3,
+    fontSize: 40,
+    fontWeight: 400,
   })
   return (
-    <div>
+    <Container>
       <InputWrap>
-        <TextInput value={input} onChange={onChange} type="text" />
+        <Numbers>
+          <Number>{input[0]}</Number>
+          <Number>{input[1]}</Number>
+          <Number>{input[2]}</Number>
+          <Number>{input[3]}</Number>
+        </Numbers>
+        <Span />
+        <Span />
+        <Span />
+        <Span />
       </InputWrap>
       <ButtonWrap>
         {numbers &&
           numbers.map((number) => (
-            <AButton width={ButtonWidth} height={ButtonHeight} border={true} key={number} onClick={() => onClick(number)}>
+            <AButton width={ButtonWidth} height={ButtonHeight} border={true} key={number} onClick={() => onClick(number)} fontSize={30}>
               {number}
             </AButton>
           ))}
-        <AButton width={ButtonWidth} height={ButtonHeight} position="absolute" onClick={reset} left={0} bottom={0}>
+        <AButton width={ButtonWidth} height={ButtonHeight} position="absolute" onClick={reset} left={0} bottom={0} fontSize={30}>
           reset
         </AButton>
         <AButton width={ButtonWidth} height={ButtonHeight} position="absolute" onClick={backSpace} bottom={0} right={0}>
-          <IoIosArrowBack size={18} />
+          <IoIosArrowBack size={30} />
         </AButton>
       </ButtonWrap>
-      <AButton onClick={find}>
+      <AButton onClick={find} width="100%">
         <FiSearch size={20} /> 찾기
       </AButton>
-    </div>
+    </Container>
   )
 }
 

@@ -24,7 +24,7 @@ const attendecySlice = createSlice({
 
       if (index >= 0) {
         let copy: AStudent = { ...studentList[index] }
-        copy = { ...copy, status: "attended" }
+        copy = { ...copy, status: "출석" }
         studentList[index] = copy
       }
 

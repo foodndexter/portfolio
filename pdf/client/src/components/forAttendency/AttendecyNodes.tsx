@@ -1,7 +1,9 @@
 import React, { ReactNode } from "react"
 import { styled } from "@stitches/react"
 import { useAttendencyContext } from "../../contextApi/AttendencyProvider"
+import type * as stitchType from "@stitches/react"
 
+const maxWidth = 1200
 export const AButton = (props: {
   children: ReactNode
   onClick: (e: any) => void
@@ -57,6 +59,9 @@ export const AButton = (props: {
     fontWeight: fontWeight ? fontWeight : theme.fontWeight,
     fontSize: fontSize ? fontSize : theme.fontSize,
     padding: 10,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     position,
     top,
     bottom,
@@ -67,10 +72,55 @@ export const AButton = (props: {
     marginTop,
     marginLeft,
     marginRight,
+    overflow: "hidden",
     "&:hover": {
       opacity: 0.8,
     },
   })
 
   return <Button onClick={onClick}>{children}</Button>
+}
+
+export const DexyButtonWrap = (props: {
+  children: ReactNode
+  flexFlow?: string
+  flexDirection?: "row" | "column"
+  justifyContent?: string
+  alignItems?: string
+  marginBottom?: number
+  marginTop?: number
+  marginLeft?: number
+  marginRight?: number
+  margin?: number | string
+}) => {
+  const { children, flexDirection, flexFlow, justifyContent, alignItems, margin, marginBottom, marginLeft, marginRight, marginTop } = props
+  const ButtonWrap = styled("div", {
+    display: "flex",
+    width: "100%",
+    maxWidth,
+    flexFlow,
+    flexDirection,
+    justifyContent,
+    alignItems,
+    margin,
+    marginRight,
+    marginLeft,
+    marginTop,
+  })
+
+  return <ButtonWrap>{children}</ButtonWrap>
+}
+
+export const AContainer = (props: { children: ReactNode; position?: "relative" | "absolute" | "fixed"; textAlign?: string }) => {
+  const { children, position, textAlign } = props
+  const Container = styled("div", {
+    width: "calc(100% - 20px)",
+    maxWidth: 1200,
+    margin: "0 auto",
+    position,
+    padding: 10,
+    textAlign,
+  })
+
+  return <Container>{children}</Container>
 }

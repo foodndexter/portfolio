@@ -44,7 +44,6 @@ export const DexyAlert = () => {
   const [payment, setPayment] = useState<MyLecture>()
   const [student, setStudent] = useState<AStudent[]>([])
   useEffect(() => {
-    console.log(type)
     lifter.name && setPayment(lifter)
     type === "attendencyStudent" && setStudent(lifter.data)
   }, [lifter, type])
