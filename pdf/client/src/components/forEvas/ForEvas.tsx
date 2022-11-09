@@ -200,7 +200,7 @@ export const UserBar = () => {
     let copy: MyLecture[] = []
     lectures &&
       lectures.map((item) => {
-        if (item.remaining > 25) return (copy = [...copy, item])
+        if (item.remaining && item.remaining > 25) return (copy = [...copy, item])
       })
     setMyLecture(copy)
   }, [lectures])

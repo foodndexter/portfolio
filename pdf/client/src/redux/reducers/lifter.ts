@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-const initialState: any = {}
+const initialState: any | MyLecture | MyLecture[] | AStudent | AStudent[] = {}
 
 const lifterSlice = createSlice({
   name: "lifter",
@@ -9,8 +9,11 @@ const lifterSlice = createSlice({
     liftHandler: (state, action) => {
       return { ...action.payload }
     },
+    liftArray: (state, action) => {
+      return { data: action.payload }
+    },
   },
 })
 
-export const { liftHandler } = lifterSlice.actions
+export const { liftHandler, liftArray } = lifterSlice.actions
 export default lifterSlice.reducer

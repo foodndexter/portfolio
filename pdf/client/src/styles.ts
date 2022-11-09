@@ -17,8 +17,16 @@ let fontFamily: string = ""
 let color: string = "black"
 let backgroundColor: string = "white"
 let margin = "0 auto"
+let width = "calc(100% - 20px)"
+let padding = 10
+let widthPadding = "calc(100% - 40px)"
 let maxWidth = 1200
-
+const oneLine: CSS = {
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  width: "100%",
+}
 export const header: Record<"layout" | "container" | "wrap" | "logo" | "menu", CSS> = {
   layout: {
     paddingTop: top,
@@ -152,12 +160,7 @@ export const dexyStyle: Record<
   bold: {
     fontWeight: 900,
   },
-  oneLine: {
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    width: "100%",
-  },
+  oneLine,
   inputWrap: {
     position: "relative",
     display: "flex",
@@ -534,27 +537,20 @@ export const takinglec: Record<"container" | "contentsButtons" | "infoWrap" | "i
   infoBody: {},
 }
 
-export const paymentStyle: Record<"iContainer" | "iNames" | "inTitle" | "inSubTitle" | "iDetails" | "idPurchasedAt" | "idPrice" | "idButton", CSS> = {
-  iContainer: {
-    border: "1px solid",
-    padding: 10,
-    width: "calc(100% - 20px)",
-    display: "flex",
-    justifyContent: "space-between",
-  },
-  iNames: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  inSubTitle: {
-    fontSize: 16,
-  },
-  inTitle: {},
-  iDetails: {
-    display: "flex",
-    flexDirection: "column",
-  },
-  idPurchasedAt: { fontSize: 14, color: `rgba(${dexyRGB.black}, .5)` },
-  idPrice: {},
-  idButton: {},
+const flexCol: CSS = { display: "flex", flexDirection: "column" }
+const rowWrap: CSS = { display: "flex", flexFlow: "row wrap" }
+const jcCenter: CSS = { justifyContent: "center" }
+const aiCenter: CSS = { alignItems: "center" }
+const Button: CSS = { display: "flex", fontSize, fontWeight, borderRadius: 3 }
+const mb: CSS = { marginBottom: 10 }
+
+export const paymentStyle: Record<"container" | "iContainer" | "iTitle" | "iInfo" | "iiNames" | "iiPrice" | "iiPurchasedAt" | "iiButton", CSS> = {
+  container: { width: widthPadding, maxWidth, margin },
+  iContainer: { ...rowWrap, border: "1px solid", ...mb, padding, justifyContent: "space-between", alignItems: "center" },
+  iTitle: oneLine,
+  iInfo: { display: "flex", justifyContent: "space-between", alignItems: "center" },
+  iiNames: { ...flexCol, width: "calc(100% - 100px)" },
+  iiPrice: {},
+  iiPurchasedAt: { color: `rgba(${dexyRGB.black}, .5)`, fontSize: 16 },
+  iiButton: { ...Button, fontSize: 16, border: "1px solid", padding: "20px 10px" },
 }

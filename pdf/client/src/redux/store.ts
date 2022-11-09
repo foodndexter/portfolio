@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit"
-import { sampleSlicer, userSlicer, lifterSlicer } from "./reducers"
+import { sampleSlicer, userSlicer, lifterSlicer, attendencySlicer } from "./reducers"
 
 export const store = configureStore({
   reducer: {
     sample: sampleSlicer,
     user: userSlicer,
     lifter: lifterSlicer,
+    attendency: attendencySlicer,
   },
 })
 

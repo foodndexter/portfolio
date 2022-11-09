@@ -24,7 +24,7 @@ const EvasMyLec = () => {
     let forSort: EvasFilter[] = []
     user.lectures &&
       user.lectures.map((item) => {
-        copy = [...copy, { ...item, remaining: getRemaingDays(item.expiresIn, item.purchasedAt) }]
+        if (item.remaining && item.remaining > -1) copy = [...copy, { ...item, remaining: getRemaingDays(item.expiresIn, item.purchasedAt) }]
 
         let sort: EvasFilter = item.book
         if (item.category) {
@@ -96,7 +96,7 @@ const LectureItem = (props: { lectures: MyLecture[]; sort: EvasFilter; filter?: 
           let filter: EvasFilter | string = lecture.book
           if (lecture.category) filter = `${lecture.category} ${lecture.book}`
           if (filter === sort) {
-            if (lecture.icon) {
+            if (lecture.icon && lecture.remaining) {
               if (lecture.remaining > -1)
                 return (
                   <div key={lecture.id} style={{ ...mylec.lItem, width }} onClick={() => onClick(lecture)}>

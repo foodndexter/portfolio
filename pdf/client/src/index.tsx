@@ -7,6 +7,7 @@ import { store } from "./redux/store"
 import reportWebVitals from "./reportWebVitals"
 import "./index.css"
 import { StateProvider } from "./contextApi/StateProvider"
+import { AttendencyProvider } from "./contextApi/AttendencyProvider"
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(
@@ -14,7 +15,9 @@ root.render(
     <BrowserRouter>
       <Provider store={store}>
         <StateProvider>
-          <App />
+          <AttendencyProvider>
+            <App />
+          </AttendencyProvider>
         </StateProvider>
       </Provider>
     </BrowserRouter>

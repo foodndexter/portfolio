@@ -127,7 +127,7 @@ type User = {
   lectures: MyLecture[]
   payments: MyLecture[]
 }
-type MyLecture = Lecture & { expiresIn: number; purchasedAt: string; remaining: number }
+type MyLecture = Lecture & { expiresIn: number; purchasedAt: string; remaining?: number }
 
 type LoginInput = { id: string; password: string }
 

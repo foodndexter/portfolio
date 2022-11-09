@@ -1,7 +1,7 @@
 import { Route, Routes, useNavigate } from "react-router-dom"
 import { Layout } from "./components"
 import { dexyMenus } from "./dexybase"
-import { Attendency, Blog, Evas, EvasChooseBook, EvasShowLectures, EvasTakeLectures, Home } from "./screens"
+import { Attendency, AttendencyStudents, AttendencyTeachers, Blog, Evas, EvasChooseBook, EvasShowLectures, EvasTakeLectures, Home } from "./screens"
 
 const App = () => {
   const dexyRouters = [<Evas />, <Attendency />, <Blog />]
@@ -14,6 +14,8 @@ const App = () => {
         <Route path="/evas/:sort" element={<EvasChooseBook />} />
         <Route path="/evas/:sort/:category" element={<EvasShowLectures />} />
         <Route path="/evas/myLec/lectures/:lecture" element={<EvasTakeLectures />} />
+        <Route path="/attendency/student" element={<AttendencyStudents />} />
+        <Route path="/attendency/teacher" element={<AttendencyTeachers />} />
       </Routes>
     </Layout>
   )

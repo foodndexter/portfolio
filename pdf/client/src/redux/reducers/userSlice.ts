@@ -1,7 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { engNeKim } from "../../dexybase"
+import { engNeKim, samplePayments } from "../../dexybase"
 
-const initialState: User = { state: true, id: "", cart: [...engNeKim], basket: [], lectures: [], payments: [] }
+const initialState: User = {
+  state: false,
+  id: "",
+  cart: [],
+  basket: [],
+  lectures: [],
+  payments: [],
+}
 
 const date = new Date()
 const month = date.getMonth() + 1
@@ -30,7 +37,7 @@ const userSlice = createSlice({
         let copy: Lecture[] = [...cart]
         cart = copy.filter((item) => item.id !== id)
       } else {
-        cart = [...cart, action.payload]
+        cart = [action.payload, ...cart]
       }
 
       return { ...state, cart }
@@ -44,7 +51,7 @@ const userSlice = createSlice({
       if (check) {
         let copy: Lecture[] = [...basket]
         basket = copy.filter((item) => item.id !== id)
-      } else basket = [...basket, action.payload]
+      } else basket = [action.payload, ...basket]
 
       return { ...state, basket }
     },
@@ -56,7 +63,7 @@ const userSlice = createSlice({
 
       let copy: Lecture[] = []
       cart.map((target) => {
-        if (!basket.some((item) => item.id === target.id)) return (copy = [...copy, target])
+        if (!basket.some((item) => item.id === target.id)) return (copy = [target, ...copy])
       })
       cart = copy
 
@@ -65,8 +72,8 @@ const userSlice = createSlice({
       basket.map((target) => {
         copy2 = [...copy2, { ...target, expiresIn: lectureDay, purchasedAt: today, remaining: getRemaingDays(lectureDay, today) }]
       })
-      lectures = [...lectures, ...copy2]
-      payments = [...payments, ...copy2]
+      lectures = [...copy2, ...lectures]
+      payments = [...copy2, ...payments]
       basket = []
 
       return { ...state, cart, basket, payments, lectures }

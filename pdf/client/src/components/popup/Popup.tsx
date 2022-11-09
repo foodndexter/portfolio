@@ -1,9 +1,12 @@
 import React, { ReactNode, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../redux/hooks"
+import { attendencyHandler } from "../../redux/reducers/attendencySlice"
 import { alertHandler, confirmHandler, modalHandler } from "../../redux/reducers/sampleSlice"
+import { userHandler } from "../../redux/reducers/userSlice"
 import { AppDispatch } from "../../redux/store"
 import { alertStyle, confirmStyle, dexyStyle, popup } from "../../styles"
+import { AButton } from "../forAttendency"
 import { LoginModal } from "./Modals"
 
 type CSS = React.CSSProperties
@@ -31,22 +34,60 @@ const Layout = (props: { children: ReactNode; type: "alert" | "modal" | "confirm
 
 export const DexyAlert = () => {
   const dispatch = useAppDispatch()
-  const { alert } = useAppSelector((state) => state.sample)
+  const { sample, lifter } = useAppSelector((state) => state)
+
+  const { alert } = sample
   const { state, message, okBtn, type } = alert
 
   const navi = useNavigate()
+
+  const [payment, setPayment] = useState<MyLecture>()
+  const [student, setStudent] = useState<AStudent[]>([])
+  useEffect(() => {
+    console.log(type)
+    lifter.name && setPayment(lifter)
+    type === "attendencyStudent" && setStudent(lifter.data)
+  }, [lifter, type])
+
   const closeFn = () => dispatch(alertHandler("off"))
   const onOkBtn = () => {
     closeFn()
     switch (type) {
       case "not found":
         return navi("/evas")
+      case "logout":
+        return navi("/evas")
     }
+  }
+
+  const onClick = (student: AStudent) => {
+    dispatch(attendencyHandler({ type: "student", student }))
+    closeFn()
   }
   return (
     <Layout type="alert" dispatch={dispatch} closeFn={onOkBtn} switch={state}>
       <div style={alertStyle.container}>
-        <span style={alertStyle.message}>{message}</span>
+        {type ? (
+          <>
+            {
+              {
+                payment: <>결제내역</>,
+                attendencyStudent: (
+                  <>
+                    {student &&
+                      student.map((person) => (
+                        <AButton border={true} onClick={() => onClick(person)} key={person.name} marginBottom={10}>
+                          {person.name}
+                        </AButton>
+                      ))}
+                  </>
+                ),
+              }[type]
+            }
+          </>
+        ) : (
+          <span style={alertStyle.message}>{message}</span>
+        )}
         {/* <div style={{ ...dexyStyle.btnWrap, justifyContent: "flex-end" }}> */}
         <button onClick={onOkBtn} style={alertStyle.button}>
           {okBtn}
@@ -72,6 +113,9 @@ export const DexyConfirm = () => {
     switch (type) {
       case "login":
         return dispatch(modalHandler("login"))
+      case "logout":
+        dispatch(alertHandler({ state: true, message: "GoodBye", okBtn: "확인", type }))
+        return dispatch(userHandler("off"))
       case "go cart":
         return navi("/evas/cart")
       case "mylec":
