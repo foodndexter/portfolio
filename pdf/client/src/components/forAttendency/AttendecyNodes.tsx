@@ -24,6 +24,7 @@ export const AButton = (props: {
   marginLeft?: number
   marginRight?: number
   margin?: number | string
+  borderColor?: string
 }) => {
   const {
     children,
@@ -45,6 +46,7 @@ export const AButton = (props: {
     marginTop,
     marginLeft,
     marginRight,
+    borderColor,
   } = props
   const { theme } = useAttendencyContext()
 
@@ -53,6 +55,7 @@ export const AButton = (props: {
     color: color ? color : border ? theme.color : theme.backgroundColor,
     height: height ? height : 50,
     borderRadius: 3,
+    borderColor,
     width,
     border: `1px solid ${color ? color : theme.color}`,
     transition: "all .2s ease-out",
@@ -92,11 +95,12 @@ export const DexyButtonWrap = (props: {
   marginLeft?: number
   marginRight?: number
   margin?: number | string
+  width?: string | number
 }) => {
-  const { children, flexDirection, flexFlow, justifyContent, alignItems, margin, marginBottom, marginLeft, marginRight, marginTop } = props
+  const { children, flexDirection, flexFlow, justifyContent, alignItems, margin, marginBottom, marginLeft, marginRight, marginTop, width } = props
   const ButtonWrap = styled("div", {
     display: "flex",
-    width: "100%",
+    width: width ? width : "100%",
     maxWidth,
     flexFlow,
     flexDirection,
@@ -123,4 +127,16 @@ export const AContainer = (props: { children: ReactNode; position?: "relative" |
   })
 
   return <Container>{children}</Container>
+}
+
+export const AAppView = (props: { children: ReactNode }) => {
+  const AppView = styled("div", {
+    width: "100%",
+    height: "calc(100vh - 160px)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "column",
+  })
+  return <AppView>{props.children}</AppView>
 }

@@ -15,15 +15,16 @@ type ClassList = "파닉스반" | "초5반" | "초6반" | "중1반" | "중2반" 
 
 type TeacherPages = "timetable" | "attendency" | "admin"
 
-type Days = "일" | "월" | "화" | "수" | "목" | "금" | "토"
+type Days = "일" | "월" | "화" | "수" | "목" | "금" | "토" | "없음"
 
 type TimeTable = {
   day: Days
   schedule: Schedule[]
+  id?: string
 }
 
 type Schedule = { time: string; class: ClassList }
 
 type AStatus = "출석" | "결석" | "조퇴" | "남음" | "아픔" | "걍쉼" | "수업끝" | "학원가는길"
 
-console.log(Days)
+type ModalType = "off" | "login" | "addTimeTable" | "attendencyStudent"

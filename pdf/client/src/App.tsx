@@ -1,6 +1,8 @@
+import { useEffect } from "react"
 import { Route, Routes, useNavigate } from "react-router-dom"
 import { Layout } from "./components"
 import { dexyMenus } from "./dexybase"
+import { authService } from "./firebase"
 import { Attendency, AttendencyStudents, AttendencyTeachers, Blog, Evas, EvasChooseBook, EvasShowLectures, EvasTakeLectures, Home } from "./screens"
 
 const App = () => {

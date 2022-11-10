@@ -103,3 +103,5 @@ export const time_table: TimeTable[] = [
 ]
 
 export const days: Days[] = ["일", "월", "화", "수", "목", "금", "토"]
+
+export const classList: ClassList[] = ["파닉스반", "초5반", "초6반", "중1반", "중2반", "중3반", "고1반", "고2반"]

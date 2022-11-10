@@ -7,7 +7,7 @@ import { userHandler } from "../../redux/reducers/userSlice"
 import { AppDispatch } from "../../redux/store"
 import { alertStyle, confirmStyle, dexyStyle, popup } from "../../styles"
 import { AButton } from "../forAttendency"
-import { LoginModal } from "./Modals"
+import { AddTimeTableModal, AttendencyStudentModal, LoginModal } from "./Modals"
 
 type CSS = React.CSSProperties
 const Layout = (props: { children: ReactNode; type: "alert" | "modal" | "confirm"; dispatch: AppDispatch; switch: boolean; closeFn: () => void }) => {
@@ -45,7 +45,6 @@ export const DexyAlert = () => {
   const [student, setStudent] = useState<AStudent[]>([])
   useEffect(() => {
     lifter.name && setPayment(lifter)
-    type === "attendencyStudent" && setStudent(lifter.data)
   }, [lifter, type])
 
   const closeFn = () => dispatch(alertHandler("off"))
@@ -71,16 +70,6 @@ export const DexyAlert = () => {
             {
               {
                 payment: <>결제내역</>,
-                attendencyStudent: (
-                  <>
-                    {student &&
-                      student.map((person) => (
-                        <AButton border={true} onClick={() => onClick(person)} key={person.name} marginBottom={10}>
-                          {person.name}
-                        </AButton>
-                      ))}
-                  </>
-                ),
               }[type]
             }
           </>
@@ -141,7 +130,8 @@ export const DexyConfirm = () => {
 
 export const DexyModal = () => {
   const dispatch = useAppDispatch()
-  const { modal } = useAppSelector((state) => state.sample)
+  const { sample, lifter } = useAppSelector((state) => state)
+  const { modal } = sample
   const { state, type } = modal
 
   const closeFn = () => dispatch(modalHandler("off"))
@@ -150,6 +140,8 @@ export const DexyModal = () => {
       {type &&
         {
           login: <LoginModal closeFn={closeFn} dispatch={dispatch} />,
+          addTimeTable: <AddTimeTableModal type={type} closeFn={closeFn} dispatch={dispatch} />,
+          attendencyStudent: <AttendencyStudentModal closeFn={closeFn} dispatch={dispatch} data={lifter.data} />,
         }[type]}
     </Layout>
   )

@@ -8,7 +8,7 @@ const initialState: Sample = {
   activeMenu: false,
   alert: { state: false, message: "메세지를 입력하세요", okBtn: "확인" },
   confirm: { state: false, message: "메세지를 입력하세요", okBtn: "확인", cancelBtn: "취소" },
-  modal: { state: false, type: "" },
+  modal: { state: false, type: "off" },
 }
 
 const sampleSlice = createSlice({
@@ -41,7 +41,7 @@ const sampleSlice = createSlice({
         return { ...state, confirm: { state: true, cancelBtn, message, okBtn, type } }
       }
     },
-    modalHandler: (state, action: { payload: "off" | string }) => {
+    modalHandler: (state, action: { payload: ModalType }) => {
       const { payload } = action
       if (payload === "off") {
         return { ...state, modal: { state: false } }
