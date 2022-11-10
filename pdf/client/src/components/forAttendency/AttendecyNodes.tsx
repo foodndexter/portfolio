@@ -25,6 +25,7 @@ export const AButton = (props: {
   marginRight?: number
   margin?: number | string
   borderColor?: string
+  borderRadius?: number
 }) => {
   const {
     children,
@@ -47,6 +48,7 @@ export const AButton = (props: {
     marginLeft,
     marginRight,
     borderColor,
+    borderRadius,
   } = props
   const { theme } = useAttendencyContext()
 
@@ -54,7 +56,7 @@ export const AButton = (props: {
     backgroundColor: backgroundColor ? backgroundColor : border ? theme.backgroundColor : theme.color,
     color: color ? color : border ? theme.color : theme.backgroundColor,
     height: height ? height : 50,
-    borderRadius: 3,
+    borderRadius: borderRadius ? borderRadius : 3,
     borderColor,
     width,
     border: `1px solid ${color ? color : theme.color}`,

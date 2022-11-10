@@ -83,7 +83,7 @@ export const AttendencyStudentModal = (props: { dispatch: AppDispatch; closeFn: 
   const { dispatch, closeFn, data } = props
 
   const onClick = (student: AStudent) => {
-    dispatch(attendencyHandler({ type: "student", student }))
+    dispatch(attendencyHandler({ type: "student", student, status: "학원도착" }))
     closeFn()
     dispatch(alertHandler({ state: true, message: `안녕하세요, ${student.name}!`, okBtn: "확인" }))
   }

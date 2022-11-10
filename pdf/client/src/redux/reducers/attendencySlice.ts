@@ -24,7 +24,7 @@ const attendecySlice = createSlice({
 
       if (index >= 0) {
         let copy: AStudent = { ...studentList[index] }
-        type === "student" ? (copy = { ...copy, status: "출석" }) : status ? (copy = { ...copy, status }) : (copy = { ...copy })
+        status ? (copy = { ...copy, status }) : (copy = { ...copy })
         console.log(copy.status)
         studentList[index] = copy
       }

@@ -25,6 +25,6 @@ type TimeTable = {
 
 type Schedule = { time: string; class: ClassList }
 
-type AStatus = "출석" | "결석" | "조퇴" | "남음" | "아픔" | "걍쉼" | "수업끝" | "학원가는길"
+type AStatus = "출석" | "결석" | "조퇴" | "남음" | "아픔" | "걍쉼" | "귀가" | "학원가는길" | "학원도착"
 
 type ModalType = "off" | "login" | "addTimeTable" | "attendencyStudent"
