@@ -102,3 +102,33 @@ export const AttendencyStudentModal = (props: { dispatch: AppDispatch; closeFn: 
     </>
   )
 }
+
+export const ShowLeftStudentsModal = (props: { dispatch: AppDispatch; closeFn: () => void; data: AStudent[] }) => {
+  const { closeFn, data, dispatch } = props
+
+  const onClick = (student: AStudent) => {
+    dispatch(
+      confirmHandler({
+        state: true,
+        message: `${student.name} 학생을 귀가 시키시겠습니까?`,
+        okBtn: "귀가",
+        cancelBtn: "취소",
+        type: "showLeftStudents",
+        data: student,
+      })
+    )
+  }
+  return (
+    <>
+      {data &&
+        data.map((student) => (
+          <AButton border={true} key={student.name || student.phone[2]} onClick={() => onClick(student)} width="100%" marginBottom={10}>
+            {student.name}
+          </AButton>
+        ))}
+      <AButton onClick={closeFn} width="100%">
+        닫기
+      </AButton>
+    </>
+  )
+}

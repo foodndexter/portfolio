@@ -1,13 +1,13 @@
 import React, { ReactNode, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../redux/hooks"
-import { attendencyHandler } from "../../redux/reducers/attendencySlice"
+import { attendencyHandler, classAttendeyHandler } from "../../redux/reducers/attendencySlice"
 import { alertHandler, confirmHandler, modalHandler } from "../../redux/reducers/sampleSlice"
 import { userHandler } from "../../redux/reducers/userSlice"
 import { AppDispatch } from "../../redux/store"
 import { alertStyle, confirmStyle, dexyStyle, popup } from "../../styles"
 import { AButton } from "../forAttendency"
-import { AddTimeTableModal, AttendencyStudentModal, LoginModal } from "./Modals"
+import { AddTimeTableModal, AttendencyStudentModal, LoginModal, ShowLeftStudentsModal } from "./Modals"
 
 type CSS = React.CSSProperties
 const Layout = (props: { children: ReactNode; type: "alert" | "modal" | "confirm"; dispatch: AppDispatch; switch: boolean; closeFn: () => void }) => {
@@ -88,14 +88,20 @@ export const DexyAlert = () => {
 
 export const DexyConfirm = () => {
   const dispatch = useAppDispatch()
-  const { confirm } = useAppSelector((state) => state.sample)
-  const { state, message, okBtn, cancelBtn, type } = confirm
+  const { sample, lifter } = useAppSelector((state) => state)
 
+  const { confirm } = sample
+  const { state, message, okBtn, cancelBtn, type, data } = confirm
+
+  useEffect(() => {
+    type === "attendencyHandler" && console.log(lifter)
+  }, [type])
   const closeFn = () => {
     dispatch(confirmHandler("off"))
   }
 
   const navi = useNavigate()
+
   const onOK = () => {
     closeFn()
     switch (type) {
@@ -108,6 +114,12 @@ export const DexyConfirm = () => {
         return navi("/evas/cart")
       case "mylec":
         return navi("/evas/myLec")
+      case "attendencyHandler":
+        const { targetClass, status } = lifter
+        return dispatch(classAttendeyHandler({ targetClass, status }))
+      case "showLeftStudents":
+        if (data) console.log(data)
+        return data && dispatch(attendencyHandler({ type: "teacher", student: data, status: "귀가" }))
     }
   }
 
@@ -142,6 +154,7 @@ export const DexyModal = () => {
           login: <LoginModal closeFn={closeFn} dispatch={dispatch} />,
           addTimeTable: <AddTimeTableModal type={type} closeFn={closeFn} dispatch={dispatch} />,
           attendencyStudent: <AttendencyStudentModal closeFn={closeFn} dispatch={dispatch} data={lifter.data} />,
+          showLeftStudents: <ShowLeftStudentsModal closeFn={closeFn} dispatch={dispatch} data={lifter.data} />,
         }[type]}
     </Layout>
   )

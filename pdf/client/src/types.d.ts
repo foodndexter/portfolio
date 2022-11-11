@@ -116,7 +116,7 @@ type ForGetLectures =
 
 type LectureBoxBtn = { name: string; short: string[]; path: string; img: string; full: string }
 
-type Popup = { state: boolean; message?: string; okBtn?: string; cancelBtn?: string; type?: string }
+type Popup = { state: boolean; message?: string; okBtn?: string; cancelBtn?: string; type?: string; data?: any }
 
 type User = {
   state?: boolean

@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react"
+import React, { ReactNode, useEffect, useState } from "react"
 import { styled } from "@stitches/react"
 import { useAttendencyContext } from "../../contextApi/AttendencyProvider"
 import type * as stitchType from "@stitches/react"
@@ -26,6 +26,7 @@ export const AButton = (props: {
   margin?: number | string
   borderColor?: string
   borderRadius?: number
+  padding?: string | number
 }) => {
   const {
     children,
@@ -49,6 +50,7 @@ export const AButton = (props: {
     marginRight,
     borderColor,
     borderRadius,
+    padding,
   } = props
   const { theme } = useAttendencyContext()
 
@@ -63,7 +65,7 @@ export const AButton = (props: {
     transition: "all .2s ease-out",
     fontWeight: fontWeight ? fontWeight : theme.fontWeight,
     fontSize: fontSize ? fontSize : theme.fontSize,
-    padding: 10,
+    padding: padding ? padding : 10,
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
@@ -98,11 +100,12 @@ export const DexyButtonWrap = (props: {
   marginRight?: number
   margin?: number | string
   width?: string | number
+  padding?: string | number
 }) => {
-  const { children, flexDirection, flexFlow, justifyContent, alignItems, margin, marginBottom, marginLeft, marginRight, marginTop, width } = props
+  const { children, flexDirection, flexFlow, justifyContent, alignItems, margin, marginBottom, marginLeft, marginRight, marginTop, width, padding } = props
   const ButtonWrap = styled("div", {
     display: "flex",
-    width: width ? width : "100%",
+    width: "100%",
     maxWidth,
     flexFlow,
     flexDirection,
@@ -112,6 +115,7 @@ export const DexyButtonWrap = (props: {
     marginRight,
     marginLeft,
     marginTop,
+    padding,
   })
 
   return <ButtonWrap>{children}</ButtonWrap>
@@ -141,4 +145,54 @@ export const AAppView = (props: { children: ReactNode }) => {
     flexDirection: "column",
   })
   return <AppView>{props.children}</AppView>
+}
+
+export const ASelect = (props: { options: any[]; placeHolder: string; name: string; onChange: (e: any) => void; value: any }) => {
+  const { options, name, onChange, value } = props
+  const Select = styled("div", {
+    border: "1px solid",
+    position: "relative",
+  })
+
+  const PlaceHolder = styled("button", {
+    backgroundColor: "Black",
+    color: "white",
+  })
+
+  const Options = styled("div", {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    position: "absolute",
+  })
+
+  const Option = styled("button", {
+    backgroundColor: "Red",
+    color: "white",
+  })
+
+  const onClick = (e: any) => {
+    onChange(e)
+  }
+
+  const [placeHolder, setPlaceHolder] = useState("")
+
+  useEffect(() => {
+    if (value.length > 0) {
+      setPlaceHolder(value)
+    } else setPlaceHolder(props.placeHolder)
+  }, [props.placeHolder, value])
+  return (
+    <Select>
+      <PlaceHolder>{placeHolder}</PlaceHolder>
+      <Options>
+        {options &&
+          options.map((option) => (
+            <Option key={option} value={option} onClick={(e) => onClick(e)} name={name}>
+              {option}
+            </Option>
+          ))}
+      </Options>
+    </Select>
+  )
 }

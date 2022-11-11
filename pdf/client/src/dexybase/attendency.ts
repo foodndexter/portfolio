@@ -8,17 +8,17 @@ export const studentList: AStudent[] = [
   { name: "전길동", class: "파닉스반", status: "학원가는길", phone: ["010", "1293", "2424"] },
   { name: "윤길동", class: "파닉스반", status: "학원가는길", phone: ["010", "1293", "7979"] },
   { name: "안길동", class: "파닉스반", status: "학원가는길", phone: ["010", "1293", "8484"] },
-  { name: "남궁길동", class: "파닉스반", status: "학원가는길", phone: ["010  ", "1293", "3863"] },
+  { name: "남궁길동", class: "파닉스반", status: "학원가는길", phone: ["010", "1293", "3863"] },
 
-  { name: "홍길동2", class: "초5반", status: "학원가는길", phone: ["010  ", "1293", "1367"] },
-  { name: "김길동2", class: "초5반", status: "학원가는길", phone: ["010  ", "1293", "4567"] },
-  { name: "박길동2", class: "초5반", status: "학원가는길", phone: ["010  ", "1293", "1351"] },
-  { name: "이길동2", class: "초5반", status: "학원가는길", phone: ["010  ", "1293", "1331"] },
-  { name: "최길동2", class: "초5반", status: "학원가는길", phone: ["010  ", "1293", "1133"] },
-  { name: "정길동2", class: "초5반", status: "학원가는길", phone: ["010  ", "1293", "1111"] },
-  { name: "전길동2", class: "초5반", status: "학원가는길", phone: ["010  ", "1293", "2222"] },
-  { name: "윤길동2", class: "초5반", status: "학원가는길", phone: ["010  ", "1293", "3333"] },
-  { name: "안길동2", class: "초5반", status: "학원가는길", phone: ["010  ", "1293", "4444"] },
+  { name: "홍길동2", class: "초5반", status: "학원가는길", phone: ["010", "1293", "1367"] },
+  { name: "김길동2", class: "초5반", status: "학원가는길", phone: ["010", "1293", "4567"] },
+  { name: "박길동2", class: "초5반", status: "학원가는길", phone: ["010", "1293", "1351"] },
+  { name: "이길동2", class: "초5반", status: "학원가는길", phone: ["010", "1293", "1331"] },
+  { name: "최길동2", class: "초5반", status: "학원가는길", phone: ["010", "1293", "1133"] },
+  { name: "정길동2", class: "초5반", status: "학원가는길", phone: ["010", "1293", "1111"] },
+  { name: "전길동2", class: "초5반", status: "학원가는길", phone: ["010", "1293", "2222"] },
+  { name: "윤길동2", class: "초5반", status: "학원가는길", phone: ["010", "1293", "3333"] },
+  { name: "안길동2", class: "초5반", status: "학원가는길", phone: ["010", "1293", "4444"] },
   { name: "남궁길동2", class: "초5반", status: "학원가는길", phone: ["010", "1293", "5555"] },
 
   { name: "남궁길동3", class: "초6반", status: "학원가는길", phone: ["010", "1293", "9999"] },
@@ -105,3 +105,7 @@ export const time_table: TimeTable[] = [
 export const days: Days[] = ["일", "월", "화", "수", "목", "금", "토"]
 
 export const classList: ClassList[] = ["파닉스반", "초5반", "초6반", "중1반", "중2반", "중3반", "고1반", "고2반"]
+
+export const A_Status: AStatus[] = ["학원가는길", "학원도착", "출석", "결석", "조퇴", "아픔", "걍쉼", "수업끝", "남음", "귀가"]
+
+export const timeList: TimeList[] = ["14:00 - 14:50", "15:00 - 15:50", "16:00 - 17:00", "17:30 - 18:50", "19:00 - 20:50", "21:00 - 21:50"]

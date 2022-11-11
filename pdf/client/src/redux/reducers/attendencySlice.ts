@@ -1,14 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { studentList } from "../../dexybase/attendency"
+import { updateStatus } from "../../api"
 
-const initialState: { theme: Theme; studentList: AStudent[] } = {
+const initialState: { theme: Theme; studentList: AStudent[]; timetable: TimeTable[]; classList: ClassList[] } = {
   theme: {
     color: "black",
     backgroundColor: "white",
     fontSize: 20,
     fontWeight: 400,
   },
-  studentList,
+  studentList: [],
+  timetable: [],
+  classList: [],
 }
 
 const attendecySlice = createSlice({
@@ -28,23 +30,34 @@ const attendecySlice = createSlice({
         console.log(copy.status)
         studentList[index] = copy
       }
-
+      updateStatus(studentList)
       return { ...state, studentList }
     },
-    classAttendeyHandler: (state, action: { payload: { targetClass: ClassList; status: AStatus } }) => {
+    classAttendeyHandler: (state, action: { payload: { targetClass: AStudent[]; status: AStatus } }) => {
       let studentList: AStudent[] = [...state.studentList]
       const { status, targetClass } = action.payload
 
       let copy: AStudent[] = []
-      studentList.map((student) => (student.class === targetClass ? (copy = [...copy, { ...student, status: status }]) : (copy = [...copy, student])))
+      console.log(targetClass)
+      targetClass.map((target) => {
+        const index = studentList.findIndex((student) => student.name === target.name && student.phone[2] === target.phone[2])
+        if (index > -1) {
+          let copy: AStudent = { ...studentList[index] }
+          console.log(copy)
+          copy = { ...copy, status }
+          console.log(copy)
+          studentList[index] = copy
+        }
+      })
 
-      studentList = copy
-
-      console.log(copy)
+      updateStatus(studentList)
       return { ...state, studentList }
+    },
+    attendencyDataFetched: (state, action: { payload: any }) => {
+      return { ...state, ...action.payload[0] }
     },
   },
 })
 
-export const { attendencyHandler, classAttendeyHandler } = attendecySlice.actions
+export const { attendencyHandler, classAttendeyHandler, attendencyDataFetched } = attendecySlice.actions
 export default attendecySlice.reducer

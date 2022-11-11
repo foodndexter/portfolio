@@ -29,16 +29,16 @@ const sampleSlice = createSlice({
       if (action.payload === "off") {
         return { ...state, alert: { state: false } }
       } else {
-        const { cancelBtn, message, okBtn, type } = action.payload
-        return { ...state, alert: { state: true, cancelBtn, message, okBtn, type } }
+        const { cancelBtn, message, okBtn, type, data } = action.payload
+        return { ...state, alert: { state: true, cancelBtn, message, okBtn, type, data } }
       }
     },
     confirmHandler: (state, action: { payload: "off" | Popup }) => {
       if (action.payload === "off") {
         return { ...state, confirm: { state: false } }
       } else {
-        const { cancelBtn, message, okBtn, type } = action.payload
-        return { ...state, confirm: { state: true, cancelBtn, message, okBtn, type } }
+        const { cancelBtn, message, okBtn, type, data } = action.payload
+        return { ...state, confirm: { state: true, cancelBtn, message, okBtn, type, data } }
       }
     },
     modalHandler: (state, action: { payload: ModalType }) => {

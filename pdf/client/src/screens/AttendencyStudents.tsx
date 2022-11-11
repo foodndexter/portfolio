@@ -123,11 +123,12 @@ const Numbers = styled("span", {
 })
 
 const ButtonSection = styled("div", {
-  height: "calc(100% - 110px)",
+  height: "calc(100% - 120px)",
   position: "relative",
   display: "flex",
   flexFlow: "row wrap",
   justifyContent: "center",
+  margin: 5,
 })
 
 const forButtons = {
