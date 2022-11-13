@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/342.ea7a5971.chunk.js","mappings":"iIAMA,UAJqB,WACnB,OAAO,yCACT,C","sources":["components/forAttendency/AdminSetting.tsx"],"sourcesContent":["import React from \"react\"\n\nconst AdminSetting = () => {\n  return <div>AdminSetting</div>\n}\n\nexport default AdminSetting\n"],"names":[],"sourceRoot":""}
