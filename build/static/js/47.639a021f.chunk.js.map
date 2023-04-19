@@ -1,1 +1,0 @@
-{"version":3,"file":"static/js/47.639a021f.chunk.js","mappings":"gIAMA,UAJgB,SAACA,GACf,OAAO,oCACT,C","sources":["components/forAttendency/AdminST.tsx"],"sourcesContent":["import React from \"react\"\n\nconst AdminST = (props: { color: string }) => {\n  return <div>AdminST</div>\n}\n\nexport default AdminST\n"],"names":["props"],"sourceRoot":""}
