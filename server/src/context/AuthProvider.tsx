@@ -1,6 +1,7 @@
 import { useRouter } from "next/router"
 import React, { createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from "react"
 import { AuthProps, User } from "./types"
+import axios from "axios"
 
 const initialState: AuthProps = { user: null, initialized: false }
 const data = createContext(initialState)
@@ -25,6 +26,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
   )
 
   useEffect(() => {
+    axios.defaults.baseURL = "http://localhost:3000/api"
     init(1000)
   }, [init])
 

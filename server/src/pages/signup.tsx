@@ -5,13 +5,16 @@ import React, { useCallback, useEffect, useRef, useState } from "react"
 import { useMutation } from "react-query"
 import { AuthApi } from "./api/auth/auth.type"
 import { useRouter } from "next/router"
+import bcrypt from "bcryptjs"
 
-export default function Signin() {
+export default function Signup() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [name, setName] = useState("")
 
   const emailRef = useRef<HTMLInputElement | null>(null)
   const passwordRef = useRef<HTMLInputElement | null>(null)
+  const nameRef = useRef<HTMLInputElement | null>(null)
 
   const focusOnEmail = useCallback(() => {
     emailRef.current?.focus()
@@ -19,14 +22,17 @@ export default function Signin() {
   const focusOnPassword = useCallback(() => {
     passwordRef.current?.focus()
   }, [])
+  const focusOnName = useCallback(() => {
+    nameRef.current?.focus()
+  }, [])
 
   useEffect(() => {
     focusOnEmail()
   }, [])
 
-  const signinFn = useMutation({
+  const signup = useMutation({
     mutationFn: async (props: { email: string; password: string }): Promise<AuthApi> => {
-      const { data } = await axios.post("auth/signin", { props })
+      const { data } = await axios.post("auth/user", { props })
       return data
     },
     onSuccess: (res) => {
@@ -40,16 +46,17 @@ export default function Signin() {
     },
   })
 
-  const onSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = useCallback(async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    signinFn.mutate({ email, password })
+    console.log(email, password)
+    return signup.mutate({ email, password })
+    console.log(await bcrypt.hash(password, 12).then((password) => password))
   }, [])
 
   const router = useRouter()
   const onRegister = useCallback(() => {
     router.push({ pathname: "/signup" })
   }, [router])
-
   return (
     <View css={{ height: "100vh", justifyContent: "center", alignItems: "center" }}>
       <View as="form" onSubmit={onSubmit}>
@@ -77,20 +84,6 @@ export default function Signin() {
             setValue={setPassword}
           />
           <Button colors="BLUE" type="submit" css={{ margin: "10px 0" }}>
-            로그인
-          </Button>
-          <View position={"relative"} css={{ width: "100%" }}>
-            <View position={"relative"} css={{ alignItems: "center" }}>
-              <Typo css={{ backgroundColor: Colors.WHITE, width: 30, color: Colors.GRAY }} size="SMALL" textAlign={"center"}>
-                또는
-              </Typo>
-            </View>
-            <View
-              position={"absolute"}
-              css={{ width: "100%", height: 1, backgroundColor: Colors.LIGHTGRAY, top: "50%", left: 0, transform: "translateY(-50%)" }}
-            />
-          </View>
-          <Button colors="BLACK" type="button" css={{ margin: "10px 0" }} onClick={onRegister}>
             회원가입
           </Button>
         </View>

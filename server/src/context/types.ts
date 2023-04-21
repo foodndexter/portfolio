@@ -3,6 +3,7 @@ export interface User {
   name: string
   uid: string
   profileImage?: string
+  password?: string
 }
 
 export interface AuthProps {
