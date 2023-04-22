@@ -55,11 +55,13 @@ function AlertComponent({ alert, closeAlert, btns, message, title }: Alert) {
           border: `1px solid ${Colors.LIGHTGRAY}`,
           overflow: "hidden",
           boxShadow: "0 3px 6px rgba(0, 0, 0, .2)",
-        }}>
+        }}
+      >
         <View
           position={"relative"}
-          css={{ height: 40, justifyContent: "center", padding: "0 20px", borderBottom: `1px solid ${Colors.LIGHTGRAY}`, alignItems: "center" }}>
-          <Typo weight={"BOLD"}>{title ?? "Oops!"}</Typo>
+          css={{ height: 40, justifyContent: "center", padding: "0 20px", borderBottom: `1px solid ${Colors.LIGHTGRAY}`, alignItems: "center" }}
+        >
+          <Typo weight={"BOLD"}>{!title ? "Oops!" : title}</Typo>
           <Button
             onClick={closeAlert}
             css={{
@@ -93,8 +95,9 @@ function AlertComponent({ alert, closeAlert, btns, message, title }: Alert) {
                 onClick={() => {
                   onPress && onPress()
                   closeAlert()
-                }}>
-                {name}
+                }}
+              >
+                {name ? name : "확인"}
               </Button>
             ))
           ) : (
@@ -107,7 +110,8 @@ function AlertComponent({ alert, closeAlert, btns, message, title }: Alert) {
                 "&:hover": {
                   color: Colors.BLUE,
                 },
-              }}>
+              }}
+            >
               확인
             </Button>
           )}

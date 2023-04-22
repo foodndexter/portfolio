@@ -1,68 +1,114 @@
 import axios from "axios"
 import { useRouter } from "next/router"
-<<<<<<< Updated upstream
 import React, { createContext, PropsWithChildren, useCallback, useContext, useEffect, useState } from "react"
-import { AuthProps, User } from "./types"
-import axios from "axios"
-=======
-import React, { createContext, PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState } from "react"
+import { API, AuthProps, User } from "./types"
 import { useMutation } from "react-query"
-import { AuthProps, SigninApi, User, API } from "./types"
->>>>>>> Stashed changes
+import { AuthApi } from "@/pages/api/auth/auth.type"
+import { useAlert } from "./PopupProvider"
 
 const initialState: AuthProps = { user: null, initialized: false, isProcessing: false, signIn: async () => {}, signOut: () => {}, signUp: async () => {} }
 const data = createContext(initialState)
 
 export function AuthProvider({ children }: PropsWithChildren) {
+  const [accessToken, setAccessToken] = useState<null | string>(null)
+  useEffect(() => {
+    const getAccessToken = () => {
+      if (typeof localStorage !== "undefined") {
+        const value = localStorage.getItem("accessToken")
+        setAccessToken(value)
+        axios.defaults.headers.common.Authorization = `Bearer ${value}`
+      } else return console.log("local Storage not mounted Yet")
+    }
+
+    return () => getAccessToken()
+  }, [])
+
+  const fecthUserFn = useMutation({
+    mutationFn: async (): Promise<AuthApi> => {
+      console.log("fetching data from server")
+      const { data } = await axios.get("auth/user", { withCredentials: true })
+      return data
+    },
+    onSuccess: (res) => {
+      const { success, message, payload } = res
+      if (!success) {
+        alert(message!)
+      }
+      if (payload) {
+        const { user } = payload
+        setUser(user)
+      }
+    },
+  })
+
+  const fetchUser = useCallback(() => {
+    console.log("fetching users...")
+    fecthUserFn.mutate()
+  }, [fecthUserFn])
+
+  useEffect(() => {
+    if (accessToken) {
+      console.log("found accessToken", accessToken)
+      fetchUser()
+    }
+  }, [accessToken])
+
   const [user, setUser] = useState<User | null>(null)
+
+  useEffect(() => {
+    if (user != null) {
+      console.log(user)
+    }
+  }, [user])
 
   const [initialized, setInitialized] = useState(false)
   const router = useRouter()
 
   const init = useCallback(
     async (timing?: number) => {
-      const fetchUser = async () => {
-        const { data } = await axios.get("auth/user", { withCredentials: true })
-        console.log(data)
-      }
-
-      await fetchUser()
       await setTimeout(
         () => {
           setInitialized(true)
 
-          if (router.pathname !== "/signup") {
-            router.push({ pathname: "signin" })
+          if (user === null || accessToken === null) {
+            if (router.pathname !== "/" && !router.pathname.includes("sign")) {
+              router.push({ pathname: "signin" })
+            }
           }
         },
         timing ? timing : 2000
       )
     },
-    [user]
+    [user, accessToken, router]
   )
 
   const [isProcessing, setIsProcessing] = useState(false)
 
+  const { alert } = useAlert()
+
   const signinFn = useMutation({
-    mutationFn: async (props: { email: string; password: string }): Promise<SigninApi> => {
+    mutationFn: async (props: { email: string; password: string }): Promise<AuthApi> => {
       const { data } = await axios.post("auth/signin", { ...props })
       return data
     },
+
     onSuccess: (res) => {
       const { success, message, payload } = res
       console.log(res)
       if (!success) {
-        throw new Error(message)
+        return alert(message!)
       }
       if (!payload) {
-        throw new Error("Payload is undefined")
+        return alert("Payload is undefined")
       }
       const { accessToken, user } = payload
       axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`
-      localStorage.setItem("accessToken", accessToken)
+      accessToken && localStorage.setItem("accessToken", accessToken)
       setUser(user)
+      router.push({ pathname: "/" })
     },
   })
+
   const signIn = useCallback(
     (props: { email: string; password: string }) => {
       signinFn.mutate(props)
@@ -79,7 +125,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       onSuccess: (res) => {
         const { success, message } = res
         if (!success) {
-          throw new Error(message)
+          return alert(message!)
         }
         localStorage.setItem("accessToken", "")
         setUser(null)
@@ -88,22 +134,24 @@ export function AuthProvider({ children }: PropsWithChildren) {
   }, [])
 
   const signupFn = useMutation({
-    mutationFn: async (props: { email: string; password: string; name: string }): Promise<SigninApi> => {
-      const { data } = await axios.post("auth/user", { ...props })
+    mutationFn: async (props: { email: string; password: string; name: string }): Promise<AuthApi> => {
+      const { data } = await axios.post("auth/user", props)
       return data
     },
     onSuccess: (res) => {
       const { success, message, payload } = res
+      console.log(res)
       if (!success) {
-        throw new Error(message)
+        return alert(message!)
       }
       if (!payload) {
-        throw new Error("Payload is undefined")
+        return alert("Payload is undefined")
       }
       const { accessToken, user } = payload
       axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`
-      localStorage.setItem("accessToken", accessToken)
+      accessToken && localStorage.setItem("accessToken", accessToken)
       setUser(user)
+      router.push({ pathname: "/" })
     },
   })
 

@@ -1,16 +1,19 @@
-import { Splash } from "@/components"
-import { AuthProvider, PopupProvider, useAuth } from "@/context"
+import { Processing, Splash } from "@/components"
+import { AuthProvider, PopupProvider } from "@/context"
 import { globalStyle } from "@/modules"
 import type { AppProps } from "next/app"
-import { PropsWithChildren, useCallback, useEffect, useState } from "react"
+import { PropsWithChildren } from "react"
 import { QueryClient, QueryClientProvider } from "react-query"
 
 export default function App({ Component, pageProps }: AppProps) {
   globalStyle()
+
   return (
     <Providers>
       <Splash>
-        <Component {...pageProps} />
+        <Processing>
+          <Component {...pageProps} />
+        </Processing>
       </Splash>
     </Providers>
   )

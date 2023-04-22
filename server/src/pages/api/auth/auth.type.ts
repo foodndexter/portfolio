@@ -9,7 +9,7 @@ export interface API {
 export interface AuthApi extends API {
   payload?: {
     user: User
-    accessToken: string
+    accessToken?: string
   }
 }
 

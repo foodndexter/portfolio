@@ -30,4 +30,10 @@ const passwordCheck = (input: string, min: number, max: number): string | null =
   return null
 }
 
-export { emailCheck, passwordCheck }
+const nameCheck = (input: string) => {
+  if (!input.length || !input) {
+    return "이름을 입력하세요."
+  }
+  return null
+}
+export { emailCheck, passwordCheck, nameCheck }

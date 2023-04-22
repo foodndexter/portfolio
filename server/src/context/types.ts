@@ -24,7 +24,7 @@ export interface Alert {
 }
 
 export interface AlertButton {
-  name: string
+  name?: string
   onPress?: () => void
 }
 
