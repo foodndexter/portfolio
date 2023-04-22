@@ -33,7 +33,7 @@ export const View = styled("div", {
   display: "flex",
   flexDirection: "column",
   variants: {
-    flow: {
+    direction: {
       row: {
         flexDirection: "row",
       },
@@ -45,6 +45,13 @@ export const View = styled("div", {
       relative: { position: "relative", zIndex: 2 },
       absolute: {
         position: "absolute",
+      },
+    },
+    type: {
+      shadow: {
+        width: "100%",
+        height: "100%",
+        backgroundColor: "rgba(0, 0, 0, .1)",
       },
     },
   },

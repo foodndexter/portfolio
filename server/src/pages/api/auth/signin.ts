@@ -1,4 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+<<<<<<< Updated upstream
 import type { NextApiRequest, NextApiResponse } from "next"
 import { AuthApi, Collection } from "./auth.type"
 import { dbService, useCryptos, useJwt } from "@/lib"
@@ -30,4 +31,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       return res.send({ success: true, payload: { accessToken, user: { email: user.email, uid: user.uid, profileImage: user.profileImage, name: user.name } } })
     }
   })
+=======
+import { API, User } from "@/context"
+import { dbService } from "@/lib"
+import type { NextApiRequest, NextApiResponse } from "next"
+import { Collection } from "./user/types"
+import { doc, getDoc, getDocs, query, where } from "firebase/firestore"
+import { useBcrypt } from "@/hooks"
+
+type Data = API
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
+  const { email, password } = req.body as { email: string; password: string }
+
+  const userRef = dbService.collection(Collection.USERS).where("email", "==", email)
+  const users = await getDocs(userRef).then((res) => res.docs.map((doc) => ({ ...doc.data() })))
+  if (!users || !users.length) {
+    return res.send({ success: false, message: "존재하지 않는 유저입니다." })
+  }
+  const user = users[0]
+
+  const { success } = await useBcrypt.compare(password, user.password)
+
+  // console.log(user)
+  // return res.send({ success: false, payload: user })
+>>>>>>> Stashed changes
 }

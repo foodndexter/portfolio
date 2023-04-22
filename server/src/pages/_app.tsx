@@ -1,5 +1,5 @@
 import { Splash } from "@/components"
-import { AuthProvider, useAuth } from "@/context"
+import { AuthProvider, PopupProvider, useAuth } from "@/context"
 import { globalStyle } from "@/modules"
 import type { AppProps } from "next/app"
 import { PropsWithChildren, useCallback, useEffect, useState } from "react"
@@ -19,7 +19,9 @@ export default function App({ Component, pageProps }: AppProps) {
 function Providers({ children }: PropsWithChildren) {
   return (
     <QueryClientProvider client={new QueryClient()}>
-      <AuthProvider>{children}</AuthProvider>
+      <PopupProvider>
+        <AuthProvider>{children}</AuthProvider>
+      </PopupProvider>
     </QueryClientProvider>
   )
 }
