@@ -4,6 +4,7 @@ export interface User {
   uid: string
   profileImage?: string
   password?: string
+  friendsList?: User[]
 }
 
 export interface AuthProps {
@@ -12,6 +13,7 @@ export interface AuthProps {
   isProcessing: boolean
   signIn: (props: { email: string; password: string }) => void
   signUp: (props: { email: string; password: string; name: string }) => void
+  friendsListHandler: (props: User) => void
   signOut: () => void
 }
 

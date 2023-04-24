@@ -1,4 +1,5 @@
 import { Colors, Typo, View } from "@/modules"
+import { CSSProperties } from "@stitches/react"
 import React, { Dispatch, SetStateAction, useState, useCallback, useEffect } from "react"
 
 interface Props {
@@ -6,8 +7,9 @@ interface Props {
   title?: string
   placeHolder?: string
   setValue?: Dispatch<SetStateAction<any>>
+  style?: CSSProperties
 }
-export function Input({ props, title, placeHolder, setValue }: Props) {
+export function Input({ props, title, placeHolder, setValue, style }: Props) {
   const [isFocused, setIsFocused] = useState(false)
   const onFocus = () => setIsFocused(true)
 
@@ -31,7 +33,7 @@ export function Input({ props, title, placeHolder, setValue }: Props) {
     }
   }
   return (
-    <View css={{ height: 40, borderRadius: 5, border: `1px solid ${Colors.GRAY}`, overflow: "hidden", minWidth: 200 }} position="relative">
+    <View css={{ height: 40, borderRadius: 5, border: `1px solid ${Colors.GRAY}`, overflow: "hidden", minWidth: 200 }} style={style} position="relative">
       {title && (
         <View as="label" htmlFor={props?.id} position={"absolute"} css={{ top: 3, left: 3, fontSize: 10, color: Colors.GRAY }}>
           {title}
@@ -60,7 +62,7 @@ export function Input({ props, title, placeHolder, setValue }: Props) {
         type="text"
         id={props?.id}
         {...props}
-        style={{ flex: 1, padding: 5, border: "none", paddingTop: 15 }}
+        style={{ flex: 1, padding: 5, border: "none", paddingTop: 15, backgroundColor: "transparent" }}
         onFocus={onFocus}
         onBlur={onBlur}
         onChange={onChange}

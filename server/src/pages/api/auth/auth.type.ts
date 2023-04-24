@@ -16,4 +16,5 @@ export interface AuthApi extends API {
 export enum Collection {
   USERS = "users",
   TOKEN = "token",
+  FRIENDSLIST = "friendsList",
 }

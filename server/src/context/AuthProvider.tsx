@@ -6,7 +6,15 @@ import { useMutation } from "react-query"
 import { AuthApi } from "@/pages/api/auth/auth.type"
 import { useAlert } from "./PopupProvider"
 
-const initialState: AuthProps = { user: null, initialized: false, isProcessing: false, signIn: async () => {}, signOut: () => {}, signUp: async () => {} }
+const initialState: AuthProps = {
+  user: null,
+  initialized: false,
+  isProcessing: false,
+  signIn: async () => {},
+  signOut: () => {},
+  signUp: async () => {},
+  friendsListHandler: () => {},
+}
 const data = createContext(initialState)
 
 export function AuthProvider({ children }: PropsWithChildren) {
@@ -167,7 +175,26 @@ export function AuthProvider({ children }: PropsWithChildren) {
     init(1000)
   }, [init])
 
-  return <data.Provider value={{ user, initialized, isProcessing, signIn, signOut, signUp }}>{children}</data.Provider>
+  const friendsListFn = useMutation({
+    mutationFn: async (props: User): Promise<any> => {
+      setIsProcessing(true)
+      const { data } = await axios.post("friendslist", props)
+      return data
+    },
+    onSuccess: (res) => {
+      setIsProcessing(false)
+      console.log(res)
+      const {} = res
+    },
+  })
+  const friendsListHandler = useCallback(
+    (props: User) => {
+      friendsListFn.mutate(props)
+    },
+    [friendsListFn]
+  )
+
+  return <data.Provider value={{ user, initialized, isProcessing, signIn, signOut, signUp, friendsListHandler }}>{children}</data.Provider>
 }
 
 export function useAuth() {

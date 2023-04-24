@@ -51,12 +51,7 @@ export default function Signin() {
     router.push({ pathname: "/" })
   }, [router])
   if (user) {
-    return (
-      <View>
-        접근 할 수 없는 페이지 입니다.
-        <Button onClick={onReturn}>돌아가기</Button>
-      </View>
-    )
+    return <>{onReturn()}</>
   }
   return (
     <View css={{ height: "100vh", justifyContent: "center", alignItems: "center" }}>

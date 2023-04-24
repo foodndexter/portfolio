@@ -54,6 +54,7 @@ export const useJwt = {
     }
   },
 }
+
 interface JWTAUTH {
   authenticated: boolean
   message?: string
